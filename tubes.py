@@ -42,3 +42,4 @@ def help() :
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
         print(" help - untuk memberikan panduan penggunaan sistem")
 #hello world
+#lovestei20
