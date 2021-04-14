@@ -3,9 +3,8 @@ def csv_reader(file_name):
     f = open(filename, "r")  # read mode membuka file csv dan disimpan dalam variabel f
     length = len(f.readlines())  # panjang baris/jumlah line pada file csv
     f.close()  # menutup file
-    l = 0  # inisialisasi baris pertama (indeks 0)/first_elmt(l)
     z = []  # inisialisasi array kosong untuk isi data csv
-    while l < length:
+    for l in range(length):
         f = open(filename, "r")
         a = f.readlines()[l]  # membaca indeks ke-l atau line ke-(l+1)
         c = 0  # inisialisasi variabel jumlah koma
@@ -28,7 +27,6 @@ def csv_reader(file_name):
             b.append(a[start:(len(a) - 1)])
         z.append(b)  # menambah array b (data line ke-(l+1)/indeks 0 ke array z)
         f.close()
-        l += 1  # next_elmt (l)
     return z
 
 def csv_writer(file_name, isi, s): #s : status, "w" to overwrite, "a" to append
