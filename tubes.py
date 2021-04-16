@@ -149,6 +149,42 @@ def login():
             break
         else:
             print("Wrong Username/Password")
+            
+
+def riwayatpinjam():
+    filename = "gadget_borrow_history.csv"
+    arr_ra = csv_reader(filename)
+    i = len(arr_ra)-1
+    if len(arr_ra) == 1: #data kosong
+        print("Tidak ada data peminjaman gadget.")
+    else : # len(arr_ra) != 1
+        flag1 = True
+        while flag1 :
+            flag2 = True
+            for x in range(5): #descending per 5 data
+                print(f"ID Peminjaman : {arr_ra[i][0]}")
+                print(f"Nama Pengambil : {arr_ra[i][1]}")
+                print(f"Nama Gadget : {arr_ra[i][2]}")
+                print(f"Tanggal Peminjaman : {arr_ra[i][3]}")
+                print(f"Jumlah : {arr_ra[i][4]} \n")
+                if i-1 == 0 :
+                    flag1 = False
+                    flag2 = False
+                    break
+                else:
+                    i-=1
+            while flag2 :
+                tambahan = input("Tampilkan 5 data berikutnya? (Y/N) : ")
+                print()
+                if tambahan.lower() == 'n':
+                    flag1 = False
+                    flag2 = False
+                elif tambahan.lower()=='y':
+                    flag2 = False
+                else:
+                    print("Masukan Salah! Silahkan Ulangi")
+            if flag1 == False and flag2==False:
+                break
 
 def riwayatambil():
     filename = "consumable_history.csv"
@@ -195,7 +231,7 @@ def help(x) :
         print(" kembalikan - untuk mengembalikan gadget secara seutuhnya")
         print(" minta - untuk meminta consumable yang tersedia")
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
-        print(" help - untuk memberikann panduan penggunaan sistem")
+        print(" help - untuk memberikan panduan penggunaan sistem")
     elif x == "admin" :
         print(" ================== HELP ==================")
         print(" register - untuk melakukan registrasi user baru")
