@@ -35,7 +35,7 @@ def csv_writer(file_name, isi, s): #s : status, "w" to overwrite, "a" to append
     #yang akan diisi ke file.csv
     f.writelines(isi)
     f.close()
-    
+
 def check(n, var_name): #mencek input pengguna saat menambah item
     if var_name == 'Jumlah' or var_name == 'tahun ditemukan':
         try:
@@ -60,7 +60,7 @@ def check(n, var_name): #mencek input pengguna saat menambah item
     else:
         return True
 
-def id_check(n, file_name): #memvalidasi id yang dimasukkan
+def id_check(n, ref_list): #memvalidasi id yang dimasukkan
     i = 1
     if len(n)<2: #id harus lebih dari 2 karakter
         print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
@@ -69,11 +69,10 @@ def id_check(n, file_name): #memvalidasi id yang dimasukkan
         n = n[1:] #mengambil kode angka dari id
         try:
             f = int(n) #mencek apakah kode angka id adalah bilangan bulat
-            arr = csv_reader(file_name)
-            if len(arr)<2:
+            if len(ref_list)<2:
                 return True
             else:
-                while i<len(arr): #mencari id yang sama dalam file csv
+                while i<len(ref_list): #mencari id yang sama dalam file csv
                     if arr[i][0] == n:
                         print("\nGagal menambahkan item karena ID sudah ada")
                         return False
@@ -84,61 +83,47 @@ def id_check(n, file_name): #memvalidasi id yang dimasukkan
             print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
             return False
 
+def op_tambahitem(id, temp_list, ref_file, ref_arr, total):
+    while True:
+        if not(id_check(id, ref_arr)):
+            return []
+            break
+        temp_list.append(id[1])
+        tag_list = csv_reader(ref_file)[0]
+        tag_list.pop(0)
+        for i in tag_list: #[nama, deskripsi, jumlah......]
+            if i == 'tahun_ditemukan':
+                i = "tahun ditemukan"
+            else:
+                i = i.capitalize()
+            x = input("Masukkan " + i + ": ")
+            if not(check(x, i)):
+                break
+            if i == 'Rarity':
+                x = x.upper()
+            temp_list.append(x)
+            total += 1
+        if total == len(tag_list)-1:
+            print("\nItem telah berhasil ditambahkan ke database.")
+            return temp_list
+        else:
+            return []
+
 
 def tambahitem():
     temp_gadget =[]
     temp_cons = []
     total = 0
-    while True:
-        id = input("Masukan ID: ")
-        if id[0].lower() == 'c':
-            if not(id_check(id, 'consumable.csv')):
-                return []
-                break
-            temp_cons.append(id[1])
-            tag_cons = csv_reader('consumable.csv')[0]
-            tag_cons.pop(0)
-            for i in tag_cons: #[nama, deskripsi, jumlah, rarity]
-                i = i.capitalize()
-                x = input("Masukkan " + i + ": ")
-                if not(check(x, i)):
-                    break
-                if i == 'Rarity':
-                    x = x.upper()
-                temp_cons.append(x)
-                total += 1
-            if total == 4:
-                print("\nItem telah berhasil ditambahkan ke database.")
-                return temp_cons
-            else:
-                return []
-        elif id[0].lower() == 'g':
-            if not(id_check(id, 'gadget.csv')):
-                return []
-                break
-            temp_gadget.append(id[1])
-            tag_gadget = csv_reader('gadget.csv')[0]
-            tag_gadget.pop(0)
-            for i in tag_gadget: #[nama, deskripsi, jumlah, rarity, tahun_ditemukan]
-                if i == 'tahun_ditemukan':
-                    i = "tahun ditemukan"
-                else:
-                    i = i.capitalize()
-                x = input("Masukkan " + i + ": ")
-                if not(check(x, i)):
-                    break
-                if i == 'Rarity':
-                    x = x.upper()
-                temp_gadget.append(x)
-                total += 1
-            if total == 5:
-                print("\nItem telah berhasil ditambahkan ke database.")
-                return temp_gadget
-            else:
-                return []
-        else:
-            print("\nGagal menambahkan item karena ID tidak valid")
-            return[]
+    id = input("Masukan ID: ")
+    if id[0].lower() == 'c':
+        x = op_tambahitem(id, temp_cons, 'consumable.csv', ac_cus, total)
+        return x
+    elif id[0].lower() == 'g':
+        x = op_tambahitem(id, temp_gadget, 'gadget.csv', ag_cus, total)
+        return x
+    else:
+        print("\nGagal menambahkan item karena ID tidak valid")
+        return[]
 
 def login():
     while True:
@@ -149,42 +134,6 @@ def login():
             break
         else:
             print("Wrong Username/Password")
-            
-
-def riwayatpinjam():
-    filename = "gadget_borrow_history.csv"
-    arr_ra = csv_reader(filename)
-    i = len(arr_ra)-1
-    if len(arr_ra) == 1: #data kosong
-        print("Tidak ada data peminjaman gadget.")
-    else : # len(arr_ra) != 1
-        flag1 = True
-        while flag1 :
-            flag2 = True
-            for x in range(5): #descending per 5 data
-                print(f"ID Peminjaman : {arr_ra[i][0]}")
-                print(f"Nama Pengambil : {arr_ra[i][1]}")
-                print(f"Nama Gadget : {arr_ra[i][2]}")
-                print(f"Tanggal Peminjaman : {arr_ra[i][3]}")
-                print(f"Jumlah : {arr_ra[i][4]} \n")
-                if i-1 == 0 :
-                    flag1 = False
-                    flag2 = False
-                    break
-                else:
-                    i-=1
-            while flag2 :
-                tambahan = input("Tampilkan 5 data berikutnya? (Y/N) : ")
-                print()
-                if tambahan.lower() == 'n':
-                    flag1 = False
-                    flag2 = False
-                elif tambahan.lower()=='y':
-                    flag2 = False
-                else:
-                    print("Masukan Salah! Silahkan Ulangi")
-            if flag1 == False and flag2==False:
-                break
 
 def riwayatambil():
     filename = "consumable_history.csv"
@@ -231,7 +180,7 @@ def help(x) :
         print(" kembalikan - untuk mengembalikan gadget secara seutuhnya")
         print(" minta - untuk meminta consumable yang tersedia")
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
-        print(" help - untuk memberikan panduan penggunaan sistem")
+        print(" help - untuk memberikann panduan penggunaan sistem")
     elif x == "admin" :
         print(" ================== HELP ==================")
         print(" register - untuk melakukan registrasi user baru")
@@ -247,8 +196,10 @@ def help(x) :
         print(" help - untuk memberikan panduan penggunaan sistem")
 
 #main program
-gadget = [] #inisialisasi array gadget sementara
-cons = [] #inisialisasi array consumable sementara
+ag_def = csv_reader('gadget.csv') #inisialisasi array gadget sementara
+ag_cus = csv_reader('gadget.csv')
+ac_def = csv_reader('consumable.csv') #inisialisasi array consumable sementara
+ac_cus = csv_reader('consumable.csv')
 
 while True:
     a = input(">>> ")
@@ -257,9 +208,9 @@ while True:
     elif a == 'tambahitem':
         new_item = tambahitem()
         if len(new_item) == 6: #gadget
-            gadget.append(new_item)
+            ag_cus.append(new_item)
         elif len(new_item) == 5: #consumable
-            cons.append(new_item)
+            ac_cus.append(new_item)
      #ngetes apakah sudah masuk ke array sementaranya
     elif a == "gadget":
         print(gadget)
