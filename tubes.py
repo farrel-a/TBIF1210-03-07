@@ -169,7 +169,41 @@ def riwayatambil():
                     print("Masukan Salah! Silahkan Ulangi")
             if flag1 == False and flag2==False:
                 break
-
+                
+def riwayatkembali():
+    filename = "gadget_return_history.csv"
+    arr_ra = csv_reader(filename)
+    i = len(arr_ra)-1
+    if len(arr_ra) == 1: #data kosong
+        print("Tidak ada data pengembalian gadget.")
+    else : # len(arr_ra) != 1
+        flag1 = True
+        while flag1 :
+            flag2 = True
+            for x in range(5): #descending per 5 data
+                print(f"ID Pengembalian : {arr_ra[i][0]}")
+                print(f"Nama Pengambil : {arr_ra[i][1]}")
+                print(f"Nama Gadget : {arr_ra[i][2]}")
+                print(f"Tanggal Pengembalian : {arr_ra[i][3]} \n")
+                if i-1 == 0 :
+                    flag1 = False
+                    flag2 = False
+                    break
+                else:
+                    i-=1
+            while flag2 :
+                tambahan = input("Tampilkan 5 data berikutnya? (Y/N) : ")
+                print()
+                if tambahan.lower() == 'n':
+                    flag1 = False
+                    flag2 = False
+                elif tambahan.lower()=='y':
+                    flag2 = False
+                else:
+                    print("Masukan Salah! Silahkan Ulangi")
+            if flag1 == False and flag2==False:
+                break
+                
 def help(x) :
     if x == "user" :
         print(" ================== HELP ==================")
