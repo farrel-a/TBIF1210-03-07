@@ -35,6 +35,110 @@ def csv_writer(file_name, isi, s): #s : status, "w" to overwrite, "a" to append
     #yang akan diisi ke file.csv
     f.writelines(isi)
     f.close()
+    
+def check(n, var_name): #mencek input pengguna saat menambah item
+    if var_name == 'Jumlah' or var_name == 'tahun ditemukan':
+        try:
+            n = int(n) #jumlah atau tahun harus berupa bilangan bulat
+            if n > 0:
+                return True
+            else:
+                print("")
+                print(var_name + " harus berupa bilangan bulat positif!")
+                return False
+        except:
+            print("")
+            print(var_name + " harus berupa bilangan bulat positif!")
+            return False
+    elif var_name == 'Rarity':
+        n = n.lower()
+        if n == 'c' or n == 'b' or n == 'a' or n == 's': #rarity harus diantara c,b,a,s
+            return True
+        else:
+            print("\nInput rarity tidak valid!")
+            return False
+    else:
+        return True
+
+def id_check(n, file_name): #memvalidasi id yang dimasukkan
+    i = 1
+    if len(n)<2: #id harus lebih dari 2 karakter
+        print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
+        return False
+    else:
+        n = n[1:] #mengambil kode angka dari id
+        try:
+            f = int(n) #mencek apakah kode angka id adalah bilangan bulat
+            arr = csv_reader(file_name)
+            if len(arr)<2:
+                return True
+            else:
+                while i<len(arr): #mencari id yang sama dalam file csv
+                    if arr[i][0] == n:
+                        print("\nGagal menambahkan item karena ID sudah ada")
+                        return False
+                        break
+                    else:
+                        return True
+        except:
+            print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
+            return False
+
+
+def tambahitem():
+    temp_gadget =[]
+    temp_cons = []
+    total = 0
+    while True:
+        id = input("Masukan ID: ")
+        if id[0].lower() == 'c':
+            if not(id_check(id, 'consumable.csv')):
+                return []
+                break
+            temp_cons.append(id[1])
+            tag_cons = csv_reader('consumable.csv')[0]
+            tag_cons.pop(0)
+            for i in tag_cons: #[nama, deskripsi, jumlah, rarity]
+                i = i.capitalize()
+                x = input("Masukkan " + i + ": ")
+                if not(check(x, i)):
+                    break
+                if i == 'Rarity':
+                    x = x.upper()
+                temp_cons.append(x)
+                total += 1
+            if total == 4:
+                print("\nItem telah berhasil ditambahkan ke database.")
+                return temp_cons
+            else:
+                return []
+        elif id[0].lower() == 'g':
+            if not(id_check(id, 'gadget.csv')):
+                return []
+                break
+            temp_gadget.append(id[1])
+            tag_gadget = csv_reader('gadget.csv')[0]
+            tag_gadget.pop(0)
+            for i in tag_gadget: #[nama, deskripsi, jumlah, rarity, tahun_ditemukan]
+                if i == 'tahun_ditemukan':
+                    i = "tahun ditemukan"
+                else:
+                    i = i.capitalize()
+                x = input("Masukkan " + i + ": ")
+                if not(check(x, i)):
+                    break
+                if i == 'Rarity':
+                    x = x.upper()
+                temp_gadget.append(x)
+                total += 1
+            if total == 5:
+                print("\nItem telah berhasil ditambahkan ke database.")
+                return temp_gadget
+            else:
+                return []
+        else:
+            print("\nGagal menambahkan item karena ID tidak valid")
+            return[]
 
 def login():
     while True:
@@ -107,10 +211,24 @@ def help(x) :
         print(" help - untuk memberikan panduan penggunaan sistem")
 
 #main program
+gadget = [] #inisialisasi array gadget sementara
+cons = [] #inisialisasi array consumable sementara
+
 while True:
     a = input(">>> ")
     if a == 'login':
         login()
+    elif a == 'tambahitem':
+        new_item = tambahitem()
+        if len(new_item) == 6: #gadget
+            gadget.append(new_item)
+        elif len(new_item) == 5: #consumable
+            cons.append(new_item)
+     #ngetes apakah sudah masuk ke array sementaranya
+    elif a == "gadget":
+        print(gadget)
+    elif a == "consumable":
+        print(cons)
     elif a == "riwayatambil":
         riwayatambil()
     elif a == "help":
@@ -118,3 +236,4 @@ while True:
         help(x)
     elif a == 'exit':
         break
+
