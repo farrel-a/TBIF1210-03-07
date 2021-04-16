@@ -1,0 +1,10 @@
+
+
+
+id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah
+1;Peter Parker;Gateway to Anywhere;05/04/2021;25
+2;Upin;Jalan Jalan Jakarta;05/05/2021;3
+3;Jarjit Singh;Jajan Monas;05/06/2021;5
+4;Skunky;Makan Bakso;08/07/2021;20
+5;Pak Guru;Jalan Kaki;09/08/2021;10
+6;Rahmat Akbar;Beli Buku;10/09/2021;21
