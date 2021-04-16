@@ -50,9 +50,9 @@ def riwayatambil():
     filename = "consumable_history.csv"
     arr_ra = csv_reader(filename)
     i = len(arr_ra)-1
-    if arr_ra == []:
+    if len(arr_ra) == 1: #data kosong
         print("Tidak ada data pengambilan consumables.")
-    else : # arr_ra != []
+    else : # len(arr_ra) != 1
         flag1 = True
         while flag1 :
             flag2 = True
