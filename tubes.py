@@ -250,7 +250,7 @@ def help(x) :
         print(" kembalikan - untuk mengembalikan gadget secara seutuhnya")
         print(" minta - untuk meminta consumable yang tersedia")
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
-        print(" help - untuk memberikann panduan penggunaan sistem")
+        print(" help - untuk memberikan panduan penggunaan sistem")
     elif x == "admin" :
         print(" ================== HELP ==================")
         print(" register - untuk melakukan registrasi user baru")
