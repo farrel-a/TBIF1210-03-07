@@ -49,6 +49,14 @@ def check(n, var_name): #mencek input pengguna saat menambah item
             print("")
             print(var_name + " harus berupa bilangan bulat positif!")
             return False
+    elif var_name == 'ubah':
+        n = n[1:]
+        try:
+            n = int(n)
+            return True
+        except:
+            return False
+
     elif var_name == 'Rarity':
         n = n.lower()
         if n == 'c' or n == 'b' or n == 'a' or n == 's': #rarity harus diantara c,b,a,s
@@ -131,9 +139,15 @@ def tambahitem():
 def hapusitem():
     id = input("Masukkan ID item: ")
     if id[0].lower() == 'g':
-        return op_hapusitem(id, ag_cus)
+        if op_ask_id(id, ag_cus):
+            return delete_by_id(id, ag_cus)
+        else:
+            return ag_cus
     elif id[0].lower() == 'c':
-        return op_hapusitem(id, ac_cus)
+        if op_ask_id(id, ac_cus):
+            return delete_by_id(id, ac_cus)
+        else:
+            return ag_cus
     else:
         print('\nTidak ada item dengan ID tersebut.')
 
@@ -160,17 +174,65 @@ def delete_by_id(n, ref_list):
     print('\nTidak ada item dengan ID tersebut.')
     return ref_list
 
-def op_hapusitem(id, ref_arr):
+def op_ask_id(id, ref_arr):
     while True:
         if not(id_check(id)):
             print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
-            return ref_arr
+            return False
             break
         if not(find_id(id, ref_arr)):
             print('\nTidak ada item dengan ID tersebut.')
-            return ref_arr
+            return False
             break
-        return delete_by_id(id, ref_arr)
+        return True
+def ubahjumlah():
+    id = input("Masukkan ID item: ")
+    if id[0].lower() == 'g':
+        if op_ask_id(id, ag_cus):
+            return op_ubahjumlah(id, ag_cus)
+        else:
+            return ag_cus
+    elif id[0].lower() == 'c':
+        if op_ask_id(id, ac_cus):
+            return op_ubahjumlah(id, ac_cus)
+        else:
+            return ac_cus
+    else:
+        print('\nTidak ada item dengan ID tersebut.')
+
+def op_ubahjumlah(id, ref_list):
+    i = 1
+    id = id[1:]
+    while i<len(ref_list): #mencari id yang sama dalam file csv
+        if ref_list[i][0] == id:
+            ask = input('Masukkan Jumlah: ')
+            if check(ask, 'ubah'):
+                ask = int(ask)
+                sum = int(ref_list[i][3]) + ask
+                if sum < 0:
+                    print("")
+                    print(str(abs(ask)) + " " + ref_list[i][1] + " gagal dibuang karena stok kurang. Stok sekarang: " + ref_list[i][3] + " (< " + str(abs(ask)) + ")")
+                    return ref_list
+                    break
+                elif ask > 0:
+                    print('')
+                    print(str(abs(ask)) + " " + ref_list[i][1] + " berhasil ditambahkan. Stok sekarang: " + str(sum))
+                    ref_list[i][3] = str(sum)
+                    return ref_list
+                    break
+                else:
+                    print('')
+                    print(str(abs(ask)) + " " + ref_list[i][1] + " berhasil dibuang. Stok sekarang: " + str(sum))
+                    ref_list[i][3] = str(sum)
+                    return ref_list
+                    break
+            else:
+                print('\nMasukkan harus berupa bilangan bulat!')
+                return ref_list
+        else:
+            i += 1
+        print('Tidak ada item dengan ID tersebut.')
+        return ref_list
 
 def login():
     while True:
@@ -352,6 +414,15 @@ while True:
     a = input(">>> ")
     if a == 'login':
         login()
+    elif a == 'ubahjumlah':
+        new_list = ubahjumlah()
+        try:
+            if len(new_list) == 6:
+                ag_cus = new_list
+            else:
+                ac_cus = new_list
+        except:
+            pass
     elif a == 'hapusitem':
         new_list = hapusitem()
         try:
