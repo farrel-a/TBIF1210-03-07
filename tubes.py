@@ -49,6 +49,50 @@ def check(n, var_name): #mencek input pengguna saat menambah item
             print("")
             print(var_name + " harus berupa bilangan bulat positif!")
             return False
+    elif var_name == 'tanggal':
+        if n[2] == '/' and n[5] == '/': #DD/MM/YYYY
+            if len(n)<7: #minimal DD/MM/Y
+                return False
+            else:
+                try:
+                    day = int(n[:2]) #ambil hari
+                    month = int(n[3:5])#ambil bulan
+                    year = int(n[6:]) #ambil  tahun
+                    bulan_30 = [4,6,9,11] #bulan yang 30 hari
+                    if day < 0 and day  > 31:
+                        if month < 1 or month > 12: #bulan harus 1-12
+                            if (year%400 == 0) or (year%4 == 0 and year%100 !=0):#tahun kabisat kalender gregorian
+                                if month ==  2:
+                                    if day >29:
+                                        return False
+                                    else:
+                                        return True
+                            else: #tahun biasa
+                                if month == 2:
+                                    if day >28:
+                                        return False
+                                    else:
+                                        return True
+                                elif month in bulan_30:
+                                    if day > 30:
+                                        return False
+                                    else:
+                                        return True
+                                else: #31 hari
+                                    if day > 31:
+                                        return False
+                                    else:
+                                        return False
+
+                        else:
+                            return False
+
+                except:
+                    return False
+
+        else:
+            return False
+
     elif var_name == 'ubah':
         n = n[1:]
         try:
@@ -234,6 +278,36 @@ def op_ubahjumlah(id, ref_list):
         print('Tidak ada item dengan ID tersebut.')
         return ref_list
 
+def pinjam():
+    id = input("Masukkan ID item: ")
+    if id[0].lower() == 'g':
+        if op_ask_id(id, ag_cus):
+            return op_pinjam(id, ag_cus)
+        else:
+            return ag_cus
+    elif id[0].lower() == 'c':
+        if op_ask_id(id, ac_cus):
+            return op_pinjam(id, ac_cus)
+        else:
+            return ag_cus
+    else:
+        print('\nTidak ada item dengan ID tersebut.')
+
+def op_pinjam(n, ref_list):
+    i = 1
+    n = n[1:]
+    date = input("Tanggal peminjaman: ")
+    if check(date, 'tanggal'):
+        n = input("Jumlah Peminjaman: ")
+        if check(n, 'Jumlah'):
+            return ref_list #INI SEMENTARA
+        else:
+            return ref_list
+    else:
+        print('Tanggal tidak valid (MM/DD/YYYY), perhatikan tahun kabisat!')
+        return ref_list
+
+
 def login():
     while True:
         a = input("Username: ")
@@ -414,6 +488,8 @@ while True:
     a = input(">>> ")
     if a == 'login':
         login()
+    elif a == 'pinjam':
+        pinjam() #SEMENTARA
     elif a == 'ubahjumlah':
         new_list = ubahjumlah()
         try:
