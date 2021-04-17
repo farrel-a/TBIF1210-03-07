@@ -315,7 +315,7 @@ while True:
             ac_cus.append(new_item)
             print(ac_cus)
     elif a == "minta":
-        ac_cus = minta(ac_def)
+        ac_cus = minta(ac_cus)
     elif a == "riwayatambil":
         riwayat(ach_def, "a")
     elif a == "riwayatpinjam":
