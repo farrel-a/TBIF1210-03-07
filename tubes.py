@@ -59,8 +59,8 @@ def check(n, var_name): #mencek input pengguna saat menambah item
                     month = int(n[3:5])#ambil bulan
                     year = int(n[6:]) #ambil  tahun
                     bulan_30 = [4,6,9,11] #bulan yang 30 hari
-                    if day < 0 and day  > 31:
-                        if month < 1 or month > 12: #bulan harus 1-12
+                    if day > 0 and day  < 32:
+                        if month > 1 and month <= 12: #bulan harus 1-12
                             if (year%400 == 0) or (year%4 == 0 and year%100 !=0):#tahun kabisat kalender gregorian
                                 if month ==  2:
                                     if day >29:
@@ -82,11 +82,10 @@ def check(n, var_name): #mencek input pengguna saat menambah item
                                     if day > 31:
                                         return False
                                     else:
-                                        return False
-
+                                        return True
+                
                         else:
                             return False
-
                 except:
                     return False
 
