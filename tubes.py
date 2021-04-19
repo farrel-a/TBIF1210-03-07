@@ -467,7 +467,14 @@ def help(x):
         print(" riwayatambil - untuk melihat riwayat pengambilan consumable")
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
         print(" help - untuk memberikan panduan penggunaan sistem")
-
+        
+def exit() :
+    logout = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) :")
+    if logout.lower() == 'y' :
+        save()
+    elif logout.lower() == 'n' :
+        print("Terima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
+        
 # MAIN PROGRAM
 # def : default, cus : customized
 au_def = csv_reader("user.csv") #inisialisasi array user
@@ -529,5 +536,6 @@ while True:
     elif a == "help":
         x = "admin"  # fadlin nanti tolong bikin status logged_in nya sebagai admin atau user, ini hanya contoh
         help(x)
-    elif a == 'exit':
+    elif a == "exit":
+        exit()
         break
