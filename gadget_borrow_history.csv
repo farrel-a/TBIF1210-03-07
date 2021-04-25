@@ -1,4 +1,5 @@
 id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned
-B1;farrel;G1;19/12/2001;2;False
-B2;xavier;G2;12/12/2022;3;False
-B3;arel;G3;19/12/2001;2;False
+B1;u1;G1;19/12/2001;2;False
+B2;u2;G2;12/12/2022;3;False
+B3;u3;G3;19/12/2001;2;False
+B4;u4;G2;21/12/2022;5;False
