@@ -538,6 +538,104 @@ def exit():
     elif logout.lower() == 'n':
         print("Terima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
 
+def login():
+    M = csv_reader("user.csv")
+    found = False
+    while not found:
+        username = input("Masukkan username: ").strip()
+        password = input("Masukkan password: ")
+        for i in range (1,len(M)):
+            if (M[i][1] == username) and (M[i][4] == password):
+                print("Login sukses, selamat datang %s\n" %username)
+                found = True 
+                global userID
+                userID = username
+                global userStatus 
+                userStatus = M[i][5]
+                break
+        if not found :
+            print("Username atau password salah, ulangi login [y/n]")
+            a = input(">>> ")
+            if a.lower() == 'n':
+                found = True
+                            
+    print(userID,userStatus) #Bisa
+
+def register():
+    if userStatus == "admin":
+        found = True
+        while found:
+            M = csv_reader("user.csv")
+            nama = input("Masukkan nama: ")
+            username = input("Masukkan username: ").strip()
+            password = input("Masukkan password: ").strip()
+            alamat = input("Masukkan alamat: ")
+            unik = True #Asumsi masukan awal unik
+            for i in range (1,len(M)): #Validasi username dan password baru terhadap data lama
+                if M[i][1] == username:
+                    unik = False  #Tidak unik
+                    print("Username sudah tersedia, silakan daftar username lain!")
+                    break
+                if M[i][4] == password:
+                    unik = False
+                    print("Password sudah tersedia, silakan gunakan password lain!")
+                    break
+            if unik == True:
+                found = False #Break loop while
+    else: # Bukan admin, tidak punya hak mendaftarkan user baru
+        print('Anda bukan admin, silakan login kembali sebagai admin') 
+
+def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
+    N = csv_reader("gadget.csv")
+    rarity = input("Masukkan rarity: ").upper() #Input rarity dipastikan selalu benar (C,B,A,S), code upper memaksa selalu kapital
+    for i in range(1,len(N)):
+        if rarity == N[i][3]:
+            print("Hasil pencarian:")
+            print("")
+            print(f"Nama             : {N[i][0]}")
+            print(f"Deskripsi        : {N[i][1]}")
+            print(f"Jumlah           : {N[i][2]}")
+            print(f"Rarity           : {N[i][3]}")
+            print(f"Tahun Ditemukan  : {N[i][4]}")
+            print("")
+
+def caritahun():
+    N = csv_reader("gadget.csv")                     
+    tahun = input("Masukkan tahun: ")
+    kategori = input("Masukkan kategori: ")
+    #Array sementara penyimpanan data kategori
+    arr = []
+    if kategori == "=":
+        for i in range (len(N)):
+            if N[i][4] == tahun:
+                arr.append(N[i])
+    elif kategori == ">":
+        for i in range (len(N)):
+            if N[i][4] > tahun:
+                arr.append(N[i])
+    elif kategori == "<":
+        for i in range (len(N)):
+            if N[i][4] < tahun:
+                arr.append(N[i])
+    elif kategori == ">=":
+        for i in range (len(N)):
+            if N[i][4] >= tahun:
+                arr.append(N[i])
+    elif kategori == "<=":
+        for i in range (len(N)):
+            if N[i][4] <= tahun:
+                arr.append(N[i])            
+    #Proses array sementara yang menyimpan kategori yang diinginkan
+    for i in range (len(arr)):
+        print("Hasil pencarian:")
+        print("")
+        print(f"Nama             : {arr[i][0]}")
+        print(f"Deskripsi        : {arr[i][1]}")
+        print(f"Jumlah           : {arr[i][2]}")
+        print(f"Rarity           : {arr[i][3]}")
+        print(f"Tahun Ditemukan  : {arr[i][4]}")
+        print("")
+
 # MAIN PROGRAM
 # def : default, cus : customized
 au_def = csv_reader("user.csv")  # inisialisasi array user
