@@ -1,4 +1,4 @@
 id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned
-G1;farrel;gateway;19/12/2001;2;False
-G2;xavier;tongkat;12/12/2022;3;False
-G3;arel;shinkansen;19/12/2001;2;False
+B1;farrel;G1;19/12/2001;2;False
+B2;xavier;G2;12/12/2022;3;False
+B3;arel;G3;19/12/2001;2;False
