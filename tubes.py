@@ -46,7 +46,7 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
                 print("")
                 print(var_name + " harus berupa bilangan bulat positif!")
                 return False
-        except:
+        except: #jumlah harus integer
             print("")
             print(var_name + " harus berupa bilangan bulat positif!")
             return False
@@ -98,9 +98,8 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
             return False
 
     elif var_name == 'ubah':
-        n = n[1:]
         try:
-            n = int(n)
+            n = int(n) #harus integer
             return True
         except:
             return False
@@ -115,6 +114,8 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
     else:
         return True
 
+
+
 def id_check(n):  # memvalidasi id yang dimasukkan
     i = 1  # i = 1 karena indeks ke-0 berisi tag_list
     if len(n) < 2:  # id harus lebih dari 2 karakter
@@ -128,8 +129,9 @@ def id_check(n):  # memvalidasi id yang dimasukkan
             return False
 
 def find_id(n, ref_list):
+    n = n.upper()
     i = 1
-    n = n[1:]
+    #n = n[1:]
     while i < len(ref_list):
         if ref_list[i][0] == n:
             return True
@@ -148,7 +150,7 @@ def op_tambahitem(id, temp_list, ref_file, ref_arr, total):
             print("\nGagal menambahkan item karena ID sudah ada")
             return []
             break
-        temp_list.append(id[1:])
+        temp_list.append(id)
         tag_list = csv_reader(ref_file)[0]
         tag_list.pop(0)
         for i in tag_list:  # [nama, deskripsi, jumlah......]
@@ -174,6 +176,7 @@ def tambahitem():
     temp_cons = []
     total = 0
     id = input("Masukan ID: ")
+    id = id.upper()
     if id[0].lower() == 'c':
         s = op_tambahitem(id, temp_cons, 'consumable.csv', ac_cus, total)
         return s
@@ -186,6 +189,7 @@ def tambahitem():
 
 def hapusitem():
     id = input("Masukkan ID item: ")
+    id = id.upper()
     if id[0].lower() == 'g':
         if op_ask_id(id, ag_cus):
             return delete_by_id(id, ag_cus)
@@ -201,7 +205,6 @@ def hapusitem():
 
 def delete_by_id(n, ref_list):
     i = 1
-    n = n[1:]
     while i < len(ref_list):
         if ref_list[i][0] == n:  # mencari id yang sama dalam file csv
             while True:
@@ -236,6 +239,7 @@ def op_ask_id(id, ref_arr):
 
 def ubahjumlah():
     id = input("Masukkan ID item: ")
+    id = id.upper()
     if id[0].lower() == 'g':
         if op_ask_id(id, ag_cus):
             return op_ubahjumlah(id, ag_cus)
@@ -251,7 +255,6 @@ def ubahjumlah():
 
 def op_ubahjumlah(id, ref_list):
     i = 1
-    id = id[1:]
     while i < len(ref_list):  # mencari id yang sama dalam file csv
         if ref_list[i][0] == id:
             ask = input('Masukkan Jumlah: ')
@@ -284,8 +287,10 @@ def op_ubahjumlah(id, ref_list):
         print('Tidak ada item dengan ID tersebut.')
         return ref_list
 
+
 def pinjam():
     id = input("Masukkan ID item: ")
+    id = id.upper()
     if id[0].lower() == 'g':
         if op_ask_id(id, ag_cus):
             return op_pinjam(id, ag_cus, agbh_cus, user_Logged)
@@ -299,35 +304,56 @@ def pinjam():
 
 def op_pinjam(id, ref_list, borrow_list, user_Logged):
     i = 1
-    id = id[1:]
-    date = input("Tanggal peminjaman: ")
-    if check(date, 'tanggal'):
-        n = input("Jumlah Peminjaman: ")
-        if check(n, 'Jumlah'):
-            while i < len(ref_list):
-                if id == ref_list[i][0]:
-                    sum = int(ref_list[i][3]) - int(n)
-                    if sum < 0:
-                        print('Gadget tidak cukup')
-                        return ref_list
-                    else:
-                        j = 0
-                        while j < len(borrow_list):
-                            j+=1
-                        borrow = [str(j), user_Logged[2], ref_list[i][1], date, n]
-                        global agbh_cus
-                        agbh_cus.append(borrow)
-                        ref_list [i][3] = str(sum)
-                        print()
-                        print("Item " + ref_list[i][1] +  " (X" + n + ") berhasil dipinjam!" )
-                        return ref_list
-
-
-            return ref_list  # INI SEMENTARA
+    j = 1
+    name = ''
+    x = 1
+    isPernahPinjam = False
+    while x < len(ref_list):
+        if ref_list[x][0] == id:
+            name = ref_list[x][1]
+            break
         else:
+            x += 1
+    while j < len(borrow_list):
+        #print(borrow_list[j][1:3])
+        #print([user_Logged[1], name])
+        if borrow_list[j][1:3] == [user_Logged[2], name]: #berarti dah pernah minjem gadget yang sama
+            print('\nAnda tidak dapat meminjam gadget yang sama!')
+            isPernahPinjam = True
+            break
+        else:
+            j += 1
+    if not(isPernahPinjam):
+        date = input("Tanggal peminjaman: ")
+        if check(date, 'tanggal'):
+            n = input("Jumlah Peminjaman: ")
+            if check(n, 'Jumlah'):
+                while i < len(ref_list):
+                    if id == ref_list[i][0]:
+                        sum = int(ref_list[i][3]) - int(n)
+                        if sum < 0:
+                            print('Gadget tidak cukup')
+                            return ref_list
+                        else:
+                            j = 0
+                            while j < len(borrow_list):
+                                j+=1
+                            borrow = [str(j), user_Logged[2], ref_list[i][1], date, n]
+                            global agbh_cus
+                            agbh_cus.append(borrow)
+                            ref_list [i][3] = str(sum)
+                            print()
+                            print("Item " + ref_list[i][1] +  " (X" + n + ") berhasil dipinjam!" )
+                            return ref_list
+
+
+                return ref_list  # INI SEMENTARA
+            else:
+                return ref_list
+        else:
+            print('\nTanggal tidak valid (MM/DD/YYYY), perhatikan tahun kabisat!')
             return ref_list
     else:
-        print('Tanggal tidak valid (MM/DD/YYYY), perhatikan tahun kabisat!')
         return ref_list
 
 def kembalikan(arr1,arr2,arr3):
