@@ -37,7 +37,7 @@ def csv_writer(file_name, isi, s):  # s : status, "w" to overwrite, "a" to appen
     f.close()
 
 def check(n, var_name):  # mencek input pengguna saat menambah item
-    if var_name == 'Jumlah' or var_name == 'tahun ditemukan':
+    if var_name == 'Jumlah' or var_name == 'tahun ditemukan' or var_name == 'tahun':
         try:
             n = int(n)  # jumlah atau tahun harus berupa bilangan bulat
             if n > 0:
@@ -51,47 +51,50 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
             print(var_name + " harus berupa bilangan bulat positif!")
             return False
     elif var_name == 'tanggal':
-        if n[2] == '/' and n[5] == '/':  # DD/MM/YYYY
-            if len(n) < 7:  # minimal DD/MM/Y
-                return False
-            else:
-                try:
-                    day = int(n[:2])  # ambil hari
-                    month = int(n[3:5])  # ambil bulan
-                    year = int(n[6:])  # ambil  tahun
-                    bulan_30 = [4, 6, 9, 11]  # bulan yang 30 hari
-                    if day > 0 and day < 32:
-                        if month > 1 and month <= 12:  # bulan harus 1-12
-                            if (year % 400 == 0) or (
-                                    year % 4 == 0 and year % 100 != 0):  # tahun kabisat kalender gregorian
-                                if month == 2:
-                                    if day > 29:
-                                        return False
-                                    else:
-                                        return True
-                            else:  # tahun biasa
-                                if month == 2:
-                                    if day > 28:
-                                        return False
-                                    else:
-                                        return True
-                                elif month in bulan_30:
-                                    if day > 30:
-                                        return False
-                                    else:
-                                        return True
-                                else:  # 31 hari
-                                    if day > 31:
-                                        return False
-                                    else:
-                                        return True
-
-                        else:
-                            return False
-                except:
+        try:
+            if n[2] == '/' and n[5] == '/':  # DD/MM/YYYY
+                if len(n) < 7:  # minimal DD/MM/Y
                     return False
+                else:
+                    try:
+                        day = int(n[:2])  # ambil hari
+                        month = int(n[3:5])  # ambil bulan
+                        year = int(n[6:])  # ambil  tahun
+                        bulan_30 = [4, 6, 9, 11]  # bulan yang 30 hari
+                        if day > 0 and day < 32:
+                            if month >= 1 and month <= 12:  # bulan harus 1-12
+                                if (year % 400 == 0) or (
+                                        year % 4 == 0 and year % 100 != 0):  # tahun kabisat kalender gregorian
+                                    if month == 2:
+                                        if day > 29:
+                                            return False
+                                        else:
+                                            return True
+                                else:  # tahun biasa
+                                    if month == 2:
+                                        if day > 28:
+                                            return False
+                                        else:
+                                            return True
+                                    elif month in bulan_30:
+                                        if day > 30:
+                                            return False
+                                        else:
+                                            return True
+                                    else:  # 31 hari
+                                        if day > 31:
+                                            return False
+                                        else:
+                                            return True
 
-        else:
+                            else:
+                                return False
+                    except:
+                        return False
+
+            else:
+                return False
+        except:
             return False
 
     elif var_name == 'ubah':
@@ -111,6 +114,8 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
             return False
     else:
         return True
+
+
 
 def id_check(n):  # memvalidasi id yang dimasukkan
     i = 1  # i = 1 karena indeks ke-0 berisi tag_list
@@ -281,28 +286,46 @@ def op_ubahjumlah(id, ref_list):
         print('Tidak ada item dengan ID tersebut.')
         return ref_list
 
+
 def pinjam():
     id = input("Masukkan ID item: ")
     if id[0].lower() == 'g':
         if op_ask_id(id, ag_cus):
-            return op_pinjam(id, ag_cus)
+            return op_pinjam(id, ag_cus, agbh_cus, user_Logged)
         else:
             return ag_cus
     elif id[0].lower() == 'c':
-        if op_ask_id(id, ac_cus):
-            return op_pinjam(id, ac_cus)
-        else:
-            return ag_cus
+        print("\nHanya bisa meminjam gadget! (tidak bisa consumables)")
+        return ag_cus
     else:
         print('\nTidak ada item dengan ID tersebut.')
 
-def op_pinjam(n, ref_list):
+def op_pinjam(id, ref_list, borrow_list, user_Logged):
     i = 1
-    n = n[1:]
+    id = id[1:]
     date = input("Tanggal peminjaman: ")
     if check(date, 'tanggal'):
         n = input("Jumlah Peminjaman: ")
         if check(n, 'Jumlah'):
+            while i < len(ref_list):
+                if id == ref_list[i][0]:
+                    sum = int(ref_list[i][3]) - int(n)
+                    if sum < 0:
+                        print('Gadget tidak cukup')
+                        return ref_list
+                    else:
+                        j = 0
+                        while j < len(borrow_list):
+                            j+=1
+                        borrow = [str(j), user_Logged[2], ref_list[i][1], date, n]
+                        global agbh_cus
+                        agbh_cus.append(borrow)
+                        ref_list [i][3] = str(sum)
+                        print()
+                        print("Item " + ref_list[i][1] +  " (X" + n + ") berhasil dipinjam!" )
+                        return ref_list
+
+
             return ref_list  # INI SEMENTARA
         else:
             return ref_list
@@ -363,16 +386,6 @@ def kembalikan(arr1,arr2,arr3):
         arr2.append(arr_return)
         print(f"\nItem {arr3[np][1]} (x{jml}) telah dikembalikan.")
         return arr2
-
-def login():
-    while True:
-        a = input("Username: ")
-        p = input("Password: ")
-        if a == "farrel" and p == "rel111":
-            print("Logged in !\n")
-            break
-        else:
-            print("Wrong Username/Password")
 
 def riwayat(arr, mode):
     if mode == "p":  # pinjam (gadget)
@@ -538,6 +551,9 @@ def exit():
     elif logout.lower() == 'n':
         print("Terima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
 
+userStatus = ''
+userID = ''
+user_Logged = []
 def login():
     M = csv_reader("user.csv")
     found = False
@@ -546,20 +562,22 @@ def login():
         password = input("Masukkan password: ")
         for i in range (1,len(M)):
             if (M[i][1] == username) and (M[i][4] == password):
-                print("Login sukses, selamat datang %s\n" %username)
-                found = True 
+                print("\nLogin sukses, selamat datang %s\n" %username)
+                found = True
                 global userID
                 userID = username
-                global userStatus 
+                global userStatus
                 userStatus = M[i][5]
+                global user_Logged
+                user_Logged = M[i]
                 break
         if not found :
             print("Username atau password salah, ulangi login [y/n]")
             a = input(">>> ")
             if a.lower() == 'n':
                 found = True
-                            
-    print(userID,userStatus) #Bisa
+
+    #print(userID,userStatus) #Bisa
 
 def register():
     if userStatus == "admin":
@@ -583,7 +601,7 @@ def register():
             if unik == True:
                 found = False #Break loop while
     else: # Bukan admin, tidak punya hak mendaftarkan user baru
-        print('Anda bukan admin, silakan login kembali sebagai admin') 
+        print('Anda bukan admin, silakan login kembali sebagai admin')
 
 def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
     N = csv_reader("gadget.csv")
@@ -600,7 +618,7 @@ def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
             print("")
 
 def caritahun():
-    N = csv_reader("gadget.csv")                     
+    N = csv_reader("gadget.csv")
     tahun = input("Masukkan tahun: ")
     kategori = input("Masukkan kategori: ")
     #Array sementara penyimpanan data kategori
@@ -624,7 +642,7 @@ def caritahun():
     elif kategori == "<=":
         for i in range (len(N)):
             if N[i][4] <= tahun:
-                arr.append(N[i])            
+                arr.append(N[i])
     #Proses array sementara yang menyimpan kategori yang diinginkan
     for i in range (len(arr)):
         print("Hasil pencarian:")
@@ -656,7 +674,8 @@ while True:
     if a == 'login':
         login()
     elif a == 'pinjam':
-        pinjam()  # SEMENTARA
+        pinjam()
+        print(agbh_cus)  # buat ngetes apa udah ke update agbh_cus-nya
     elif a == 'ubahjumlah':
         new_list = ubahjumlah()
         try:
