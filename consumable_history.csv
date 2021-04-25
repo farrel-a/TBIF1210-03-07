@@ -1,7 +1,7 @@
 id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah
-1;Peter Parker;Dorayaki Rasa Nasi Rames;05/04/2021;23
-2;Okabe Rintarou;Dorayaki Rasa Nasi Kuning;05/05/2021;3
-3;Ayaka Nishiwaki;Dorayaki Rasa Nasi Uduk;06/07/2021;5
-4;Skunky;Sashimi;08/07/2021;2
-5;Jarjit Singh;Nasi Lemak;21/08/2021;69
-6;Uncle Muthu;Ais ABCD;23/09/2021;53
+CH1;U1;C5;05/04/2021;23
+CH2;U2;C6;05/05/2021;3
+CH3;U3;C7;06/07/2021;5
+CH4;U6;C8;08/07/2021;2
+CH5;U8;C10;21/08/2021;69
+CH6;U9;C9;23/09/2021;53
