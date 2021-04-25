@@ -115,8 +115,6 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
     else:
         return True
 
-
-
 def id_check(n):  # memvalidasi id yang dimasukkan
     i = 1  # i = 1 karena indeks ke-0 berisi tag_list
     if len(n) < 2:  # id harus lebih dari 2 karakter
@@ -285,7 +283,6 @@ def op_ubahjumlah(id, ref_list):
             i += 1
         print('Tidak ada item dengan ID tersebut.')
         return ref_list
-
 
 def pinjam():
     id = input("Masukkan ID item: ")
@@ -487,16 +484,18 @@ def riwayat(arr, mode):
                 if flag1 == False and flag2 == False:
                     break
 
-def minta(arr1):
+def minta(arr1, arr2):
     # arr_m : ac
+    # arr_ch : ach
     arr_m = arr1
+    arr_ch = arr2
     found = False
     while not (found):
         id = input("Masukkan ID item: ")
         for i in range(1, len(arr_m)):
-            if id == arr_m[i][0]:
+            if id.upper() == arr_m[i][0]:
                 found = True
-                r_idx = i
+                r_idx = i  #pointer index consumable
         if found:
             break
         else:
@@ -516,8 +515,13 @@ def minta(arr1):
             print("Masukan salah!")
     print(f"Item {arr_m[r_idx][1]} (x{jml}) telah berhasil diambil!")
     arr_m[r_idx][3] = str(int(arr_m[r_idx][3]) - jml)
+    id = f"CH{len(arr_ch)}"
+    id_pengambil = user_Logged[0]
+    id_consumable = arr_m[r_idx][0]
+    arr = [id,id_pengambil,id_consumable,tgl,str(jml)]
+    arr_ch.append(arr)
     # consumable history belum dimasukkan, sistem login dan identifikasi user belum ada
-    return arr_m
+    return arr_m, arr_ch
 
 def help(x):
     if x == "user":
@@ -544,16 +548,22 @@ def help(x):
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
         print(" help - untuk memberikan panduan penggunaan sistem")
 
-def exit():
-    logout = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) : ")
-    if logout.lower() == 'y':
-        save()
-    elif logout.lower() == 'n':
-        print("Terima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
+def exit() :
+    if au_def == au_cus and ag_def == ag_cus and ac_def == ac_cus and ach_def == ach_cus and agbh_def == agbh_cus and agrh_def == agrh_cus:
+        print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
+    else:
+        while True :
+            Z = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n): ")
+            if Z.lower() == 'y' :
+                save()
+                break
+            elif Z.lower() == 'n' :
+                print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
+                break
+            else :
+                print("\nMasukkan salah, ulangi!")
+                break
 
-userStatus = ''
-userID = ''
-user_Logged = []
 def login():
     M = csv_reader("user.csv")
     found = False
@@ -579,35 +589,33 @@ def login():
 
     #print(userID,userStatus) #Bisa
 
-def register():
-    if userStatus == "admin":
-        found = True
-        while found:
-            M = csv_reader("user.csv")
-            nama = input("Masukkan nama: ")
-            username = input("Masukkan username: ").strip()
-            password = input("Masukkan password: ").strip()
-            alamat = input("Masukkan alamat: ")
-            unik = True #Asumsi masukan awal unik
-            for i in range (1,len(M)): #Validasi username dan password baru terhadap data lama
-                if M[i][1] == username:
-                    unik = False  #Tidak unik
-                    print("Username sudah tersedia, silakan daftar username lain!")
-                    break
-                if M[i][4] == password:
-                    unik = False
-                    print("Password sudah tersedia, silakan gunakan password lain!")
-                    break
-            if unik == True:
-                found = False #Break loop while
-    else: # Bukan admin, tidak punya hak mendaftarkan user baru
-        print('Anda bukan admin, silakan login kembali sebagai admin')
+def register(arr):
+    # arr_u : au_cus
+    arr_u = arr
+    found = True
+    while found:
+        nama = input("Masukkan nama: ").title().strip()
+        username = input("Masukkan username: ").strip()
+        password = input("Masukkan password: ").strip()
+        alamat = input("Masukkan alamat: ")
+        unik = True #Asumsi masukan awal unik
+        for i in range (1,len(arr_u)): #Validasi username dan password baru terhadap data lama
+            if arr_u[i][1] == username:
+                unik = False  #Tidak unik
+                print("Username sudah tersedia, silakan daftar username lain!")
+                break
+        if unik == True:
+            found = False #Break loop while
+    id = f"U{len(arr_u)}"
+    arr_res = [id,username,nama,alamat,password,"user"]
+    arr_u.append(arr_res)
+    return arr_u
 
 def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
     N = csv_reader("gadget.csv")
     rarity = input("Masukkan rarity: ").upper() #Input rarity dipastikan selalu benar (C,B,A,S), code upper memaksa selalu kapital
     for i in range(1,len(N)):
-        if rarity == N[i][3]:
+        if rarity == N[i][4]:
             print("Hasil pencarian:")
             print("")
             print(f"Nama             : {N[i][0]}")
@@ -624,34 +632,34 @@ def caritahun():
     #Array sementara penyimpanan data kategori
     arr = []
     if kategori == "=":
-        for i in range (len(N)):
-            if N[i][4] == tahun:
+        for i in range (1,len(N)):
+            if N[i][5] == tahun:
                 arr.append(N[i])
     elif kategori == ">":
-        for i in range (len(N)):
-            if N[i][4] > tahun:
+        for i in range (1,len(N)):
+            if N[i][5] > tahun:
                 arr.append(N[i])
     elif kategori == "<":
-        for i in range (len(N)):
-            if N[i][4] < tahun:
+        for i in range (1,len(N)):
+            if N[i][5] < tahun:
                 arr.append(N[i])
     elif kategori == ">=":
-        for i in range (len(N)):
-            if N[i][4] >= tahun:
+        for i in range (1,len(N)):
+            if N[i][5] >= tahun:
                 arr.append(N[i])
     elif kategori == "<=":
-        for i in range (len(N)):
-            if N[i][4] <= tahun:
+        for i in range (1,len(N)):
+            if N[i][5] <= tahun:
                 arr.append(N[i])
     #Proses array sementara yang menyimpan kategori yang diinginkan
     for i in range (len(arr)):
         print("Hasil pencarian:")
         print("")
-        print(f"Nama             : {arr[i][0]}")
-        print(f"Deskripsi        : {arr[i][1]}")
-        print(f"Jumlah           : {arr[i][2]}")
-        print(f"Rarity           : {arr[i][3]}")
-        print(f"Tahun Ditemukan  : {arr[i][4]}")
+        print(f"Nama             : {arr[i][1]}")
+        print(f"Deskripsi        : {arr[i][2]}")
+        print(f"Jumlah           : {arr[i][3]}")
+        print(f"Rarity           : {arr[i][4]}")
+        print(f"Tahun Ditemukan  : {arr[i][5]}")
         print("")
 
 # MAIN PROGRAM
@@ -669,55 +677,130 @@ agbh_cus = csv_reader("gadget_borrow_history.csv")
 agrh_def = csv_reader("gadget_return_history.csv")  # inisialisasi array gadget return history
 agrh_cus = csv_reader("gadget_return_history.csv")
 
+isLoggedIn = False
+isAdmin = False
 while True:
     a = input(">>> ")
     if a == 'login':
-        login()
-    elif a == 'pinjam':
-        pinjam()
-        print(agbh_cus)  # buat ngetes apa udah ke update agbh_cus-nya
-    elif a == 'ubahjumlah':
-        new_list = ubahjumlah()
-        try:
-            if len(new_list) == 6:
-                ag_cus = new_list
-            else:
-                ac_cus = new_list
-        except:
-            pass
-    elif a == 'hapusitem':
-        new_list = hapusitem()
-        try:
-            if len(new_list) == 6:
-                ag_cus = new_list
-            else:
-                ac_cus = new_list
-        except:
-            pass
-    elif a == 'tambahitem':
-        new_item = tambahitem()
-        if len(new_item) == 6:  # gadget
-            ag_cus.append(new_item)
-        elif len(new_item) == 5:  # consumable
-            ac_cus.append(new_item)
+        if not isLoggedIn:
+            login()
+            isLoggedIn = True
+            if userStatus == 'admin':
+                isAdmin = True
+        else:
+            print("Anda sudah log in")
+    elif a == 'register':  #akses : Admin
+        if isLoggedIn and isAdmin:
+            print(au_cus)
+            au_cus = register(au_cus)
+            print(au_cus)
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  #not(isLoggedIn)
+            print("Anda belum login")
+    elif a == 'pinjam':  #akses : user
+        if isLoggedIn and not isAdmin:
+            pinjam()
+            print(agbh_cus)  # buat ngetes apa udah ke update agbh_cus-nya
+        elif isLoggedIn and isAdmin:
+            print("Anda Admin, akses ini hanya untuk user")
+        else: #not(isLoggedIn)
+            print("Anda belum login")
+    elif a == 'ubahjumlah':  #akses : admin
+        if isLoggedIn and isAdmin:
+            new_list = ubahjumlah()
+            try:
+                if len(new_list) == 6:
+                    ag_cus = new_list
+                else:
+                    ac_cus = new_list
+            except:
+                pass
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  # not(isLoggedIn) or not(isAdmin):
+            print("Anda belum login")
+    elif a == 'hapusitem':  #akses : admin
+        if isLoggedIn and isAdmin:
+            new_list = hapusitem()
+            try:
+                if len(new_list) == 6:
+                    ag_cus = new_list
+                else:
+                    ac_cus = new_list
+            except:
+                pass
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == 'tambahitem': #akses : admin
+        if isLoggedIn and isAdmin:
+            new_item = tambahitem()
+            if len(new_item) == 6:  # gadget
+                ag_cus.append(new_item)
+            elif len(new_item) == 5:  # consumable
+                ac_cus.append(new_item)
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  # not(isLoggedIn)
+            print("Anda belum login")
     # ngetes apakah sudah masuk ke array sementaranya
     elif a == "gadget":
         print(ag_cus)
     elif a == "cons":
         print(ac_cus)
-    elif a == "minta":
-        ac_cus = minta(ac_cus)
-    elif a == "riwayatambil":
-        riwayat(ach_def, "a")
-    elif a == "riwayatpinjam":
-        riwayat(agbh_def, "p")
-    elif a == "riwayatkembali":
-        riwayat(agrh_def, "k")
-    elif a == "kembalikan":
-        agrh_cus = kembalikan(agbh_cus, agrh_cus,ag_cus)
-    elif a == "help":
-        x = "admin"  # fadlin nanti tolong bikin status logged_in nya sebagai admin atau user, ini hanya contoh
-        help(x)
+    elif a == "minta": #akses : user
+        if isLoggedIn and not isAdmin:
+            ac_cus, ach_cus = minta(ac_cus, ach_cus)
+        elif isLoggedIn and isAdmin:
+            print("Anda admin, akses ini hanya untuk user")
+        else: # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == "riwayatambil": #akses : admin
+        if isLoggedIn and isAdmin:
+            riwayat(ach_def, "a")
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == "riwayatpinjam": #akses : admin
+        if isLoggedIn and isAdmin:
+            riwayat(agbh_def, "p")
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == "riwayatkembali": #akses : admin
+        if isLoggedIn and isAdmin:
+            riwayat(agrh_def, "k")
+        elif isLoggedIn and not isAdmin:
+            print("Anda user, akses ini hanya untuk admin")
+        else:  # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == "kembalikan": #akses : user
+        if isLoggedIn and not isAdmin:
+            agrh_cus = kembalikan(agbh_cus, agrh_cus,ag_cus)
+        elif isLoggedIn and not isAdmin:
+            print("Anda admin, akses ini hanya untuk user")
+        else:  # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == "carirarity":  #akses : admin, user
+        if isLoggedIn :
+            rarity()
+        else: # not(isLoggedIn)
+            print("Anda belum login")
+    elif a == "caritahun": #akses : admin, user
+        if isLoggedIn:
+            caritahun()
+        else:
+            print("Anda belum login")
+    elif a == "help":  #akses : user,admin
+        if isLoggedIn:
+            x = userStatus
+            help(x)
+        else:
+            print("Anda belum login")
     elif a == "exit":
         exit()
         break
