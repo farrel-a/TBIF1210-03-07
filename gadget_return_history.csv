@@ -1,7 +1,1 @@
-id;id_peminjam;id_gadget;tanggal_pengembalian
-1;Peter Parker;Gateway to Anywhere;05/04/2021
-2;Jajang Sumarna;Jalan Pasar Senen;08/06/2021
-3;Suparno;Jajan Bajigur;09/07/2021
-4;Randy Kurnia;Janji Jiwa;12/09/2021
-5;Michelle;Jalan Batagor;23/11/2021
-6;Alyssa;Dimana Hidup;30/12/2021
+id;id_peminjamanan;tanggal_pengembalian
