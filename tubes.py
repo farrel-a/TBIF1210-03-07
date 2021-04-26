@@ -588,7 +588,6 @@ def exit() :
                 break
             else :
                 print("\nMasukkan salah, ulangi!")
-                break
 
 def login():
     M = csv_reader("user.csv")
