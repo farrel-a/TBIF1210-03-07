@@ -630,7 +630,8 @@ def help(x):
     elif x == "admin":
         print(" ================== HELP ==================")
         print(" register - untuk melakukan registrasi user baru")
-        print(" carararity - untuk mencari gadget dengan rarity tertentu")
+        print(" login - untuk melakukan login ke dalam sistem")
+        print(" carirarity - untuk mencari gadget dengan rarity tertentu")
         print(" caritahun - untuk mencari gadget berdasarkan tahun ditemukan")
         print(" tambahitem - untuk melakukan penambahan item")
         print(" hapusitem - untuk menghapus suatu item pada database")
