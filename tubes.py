@@ -72,6 +72,17 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
                                             return False
                                         else:
                                             return True
+                                    elif month in bulan_30:
+                                        if day > 30:
+                                            return False
+                                        else:
+                                            return True
+                                    else:  # 31 hari
+                                        if day > 31:
+                                            return False
+                                        else:
+                                            return True
+                                          
                                 else:  # tahun biasa
                                     if month == 2:
                                         if day > 28:
