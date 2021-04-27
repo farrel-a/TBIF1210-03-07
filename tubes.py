@@ -1,5 +1,6 @@
 import os, argparse, time
 
+
 def csv_reader(file_name):
     filename = file_name  # nama file di sini
     f = open(filename, "r")  # read mode membuka file csv dan disimpan dalam variabel f
@@ -31,12 +32,14 @@ def csv_reader(file_name):
         f.close()
     return z
 
+
 def csv_writer(file_name, isi, s):  # s : status, "w" to overwrite, "a" to append
     filename = file_name  # nama file di sini
     f = open(filename, s)
     # yang akan diisi ke file.csv
     f.writelines(isi)
     f.close()
+
 
 def check(n, var_name):  # mencek input pengguna saat menambah item
     if var_name == 'Jumlah' or var_name == 'tahun ditemukan' or var_name == 'tahun':
@@ -48,7 +51,7 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
                 print("")
                 print(var_name + " harus berupa bilangan bulat positif!")
                 return False
-        except: #jumlah harus integer
+        except:  # jumlah harus integer
             print("")
             print(var_name + " harus berupa bilangan bulat positif!")
             return False
@@ -82,7 +85,7 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
                                             return False
                                         else:
                                             return True
-                                          
+
                                 else:  # tahun biasa
                                     if month == 2:
                                         if day > 28:
@@ -112,7 +115,7 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
 
     elif var_name == 'ubah':
         try:
-            n = int(n) #harus integer
+            n = int(n)  # harus integer
             return True
         except:
             return False
@@ -127,40 +130,41 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
 
     elif var_name == "files":
         # n : string (folder path), var_name : "files"
-        os.chdir(n)  #path menuju folder
-        if not(os.path.exists("user.csv")):
-            f = open("user.csv","x")
+        os.chdir(n)  # path menuju folder
+        if not (os.path.exists("user.csv")):
+            f = open("user.csv", "x")
             f.close()
             string = "id;username;nama;alamat;password;role"
             csv_writer("user.csv", string, "w")
-        if not(os.path.exists("gadget.csv")):
-            f = open("gadget.csv","x")
+        if not (os.path.exists("gadget.csv")):
+            f = open("gadget.csv", "x")
             f.close()
             string = "id;nama;deskripsi;jumlah;rarity;tahun_ditemukan"
             csv_writer("gadget.csv", string, "w")
-        if not(os.path.exists("consumable.csv")):
+        if not (os.path.exists("consumable.csv")):
             f = open("consumable.csv", "x")
             f.close()
             string = "id;nama;deskripsi;jumlah;rarity"
             csv_writer("consumable.csv", string, "w")
-        if not(os.path.exists("consumable_history.csv")):
+        if not (os.path.exists("consumable_history.csv")):
             f = open("consumable_history.csv", "x")
             f.close()
             string = "id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah"
             csv_writer("consumable_history.csv", string, "w")
-        if not(os.path.exists("gadget_borrow_history.csv")):
-            f = open("gadget_borrow_history.csv","x")
+        if not (os.path.exists("gadget_borrow_history.csv")):
+            f = open("gadget_borrow_history.csv", "x")
             f.close()
             string = "id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned"
             csv_writer("gadget_borrow_history.csv", string, "w")
-        if not(os.path.exists("gadget_return_history.csv")):
-            f = open("gadget_return_history.csv","x")
+        if not (os.path.exists("gadget_return_history.csv")):
+            f = open("gadget_return_history.csv", "x")
             f.close()
             string = "id;id_peminjaman;tanggal_pengembalian"
             csv_writer("gadget_return_history.csv", string, "w")
 
     else:
         return True
+
 
 def id_check(n):  # memvalidasi id yang dimasukkan
     i = 1  # i = 1 karena indeks ke-0 berisi tag_list
@@ -174,10 +178,11 @@ def id_check(n):  # memvalidasi id yang dimasukkan
         except:
             return False
 
+
 def find_id(n, ref_list):
     n = n.upper()
     i = 1
-    #n = n[1:]
+    # n = n[1:]
     while i < len(ref_list):
         if ref_list[i][0] == n:
             return True
@@ -185,6 +190,7 @@ def find_id(n, ref_list):
         else:
             i += 1
     return False
+
 
 def op_tambahitem(id, temp_list, ref_file, ref_arr, total):
     while True:
@@ -217,6 +223,7 @@ def op_tambahitem(id, temp_list, ref_file, ref_arr, total):
         else:
             return []
 
+
 def tambahitem():
     temp_gadget = []
     temp_cons = []
@@ -233,6 +240,7 @@ def tambahitem():
         print("\nGagal menambahkan item karena ID tidak valid")
         return []
 
+
 def hapusitem():
     id = input("Masukkan ID item: ")
     id = id.upper()
@@ -248,6 +256,7 @@ def hapusitem():
             return ag_cus
     else:
         print('\nTidak ada item dengan ID tersebut.')
+
 
 def delete_by_id(n, ref_list):
     i = 1
@@ -271,6 +280,7 @@ def delete_by_id(n, ref_list):
     print('\nTidak ada item dengan ID tersebut.')
     return ref_list
 
+
 def op_ask_id(id, ref_arr):
     while True:
         if not (id_check(id)):
@@ -282,6 +292,7 @@ def op_ask_id(id, ref_arr):
             return False
             break
         return True
+
 
 def ubahjumlah():
     id = input("Masukkan ID item: ")
@@ -298,6 +309,7 @@ def ubahjumlah():
             return ac_cus
     else:
         print('\nTidak ada item dengan ID tersebut.')
+
 
 def op_ubahjumlah(id, ref_list):
     i = 1
@@ -333,6 +345,7 @@ def op_ubahjumlah(id, ref_list):
         print('Tidak ada item dengan ID tersebut.')
         return ref_list
 
+
 def pinjam():
     id = input("Masukkan ID item: ")
     id = id.upper()
@@ -347,6 +360,7 @@ def pinjam():
     else:
         print('\nTidak ada item dengan ID tersebut.')
 
+
 def op_pinjam(id, ref_list, borrow_list, user_Logged):
     i = 1
     j = 1
@@ -360,15 +374,15 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
         else:
             x += 1
     while j < len(borrow_list):
-        #print(borrow_list[j][1:3])
-        #print([user_Logged[1], name])
-        if borrow_list[j][1:3] == [user_Logged[2], name]: #berarti dah pernah minjem gadget yang sama
+        # print(borrow_list[j][1:3])
+        # print([user_Logged[1], name])
+        if borrow_list[j][1:3] == [user_Logged[2], name]:  # berarti dah pernah minjem gadget yang sama
             print('\nAnda tidak dapat meminjam gadget yang sama!')
             isPernahPinjam = True
             break
         else:
             j += 1
-    if not(isPernahPinjam):
+    if not (isPernahPinjam):
         date = input("Tanggal peminjaman: ")
         if check(date, 'tanggal'):
             n = input("Jumlah Peminjaman: ")
@@ -382,15 +396,14 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                         else:
                             j = 0
                             while j < len(borrow_list):
-                                j+=1
+                                j += 1
                             borrow = [str(j), user_Logged[2], ref_list[i][1], date, n]
                             global agbh_cus
                             agbh_cus.append(borrow)
-                            ref_list [i][3] = str(sum)
+                            ref_list[i][3] = str(sum)
                             print()
-                            print("Item " + ref_list[i][1] +  " (X" + n + ") berhasil dipinjam!" )
+                            print("Item " + ref_list[i][1] + " (X" + n + ") berhasil dipinjam!")
                             return ref_list
-
 
                 return ref_list  # INI SEMENTARA
             else:
@@ -401,13 +414,14 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
     else:
         return ref_list
 
-def kembalikan(arr1,arr2,arr3):
-    #arr1 : agbh, arr2 : agrh, arr3 : ag
-    arr_IDGL = [] #inisialisasi ID Gadget List yang belum dikembalikan
+
+def kembalikan(arr1, arr2, arr3):
+    # arr1 : agbh, arr2 : agrh, arr3 : ag
+    arr_IDGL = []  # inisialisasi ID Gadget List yang belum dikembalikan
     N1 = len(arr1)
     N2 = len(arr2)
     N3 = len(arr3)
-    for i in range(1,N1):
+    for i in range(1, N1):
         if arr1[i][5] == "False" and (arr1[i][2] not in arr_IDGL):
             arr_IDGL.append(arr1[i][2])
     no = 1
@@ -419,21 +433,21 @@ def kembalikan(arr1,arr2,arr3):
             for i in range(N3):
                 if IDG == arr3[i][0]:
                     print(f"{no}. {arr3[i][1]}")
-                    no+=1
+                    no += 1
         print()
         while True:
             np = int(input("Masukan nomor peminjaman: "))
-            if np>=1 and np<=(len(arr_IDGL)):
+            if np >= 1 and np <= (len(arr_IDGL)):
                 break
             else:
                 print("Masukan salah!")
         while True:
             tgl = input("Tanggal pengembalian: ")
-            if check(tgl,'tanggal'):
+            if check(tgl, 'tanggal'):
                 break
             else:
                 print("Masukan salah!")
-        np = int(arr_IDGL[np-1][1])
+        np = int(arr_IDGL[np - 1][1])
         jml = 0
         id_peminjaman = []
         for i in range(N1):
@@ -441,11 +455,11 @@ def kembalikan(arr1,arr2,arr3):
                 jml += int(arr1[i][4])
                 id_peminjaman.append(arr1[i][0])
                 arr1[i][5] = "True"
-                arr3[np][3] = str(int(arr3[np][3])+int(arr1[i][4]))
+                arr3[np][3] = str(int(arr3[np][3]) + int(arr1[i][4]))
         id = N2
         idp = ""
         for i in range(len(id_peminjaman)):
-            if i != (len(id_peminjaman)-1):
+            if i != (len(id_peminjaman) - 1):
                 idp += id_peminjaman[i]
                 idp += ","
             else:
@@ -454,6 +468,7 @@ def kembalikan(arr1,arr2,arr3):
         arr2.append(arr_return)
         print(f"\nItem {arr3[np][1]} (x{jml}) telah dikembalikan.")
         return arr2
+
 
 def riwayat(arr, mode):
     if mode == "p":  # pinjam (gadget)
@@ -554,6 +569,7 @@ def riwayat(arr, mode):
                 if flag1 == False and flag2 == False:
                     break
 
+
 def minta(arr1, arr2):
     # arr_m : ac
     # arr_ch : ach
@@ -565,33 +581,40 @@ def minta(arr1, arr2):
         for i in range(1, len(arr_m)):
             if id.upper() == arr_m[i][0]:
                 found = True
-                r_idx = i  #pointer index consumable
+                r_idx = i  # pointer index consumable
         if found:
             break
         else:
             print("ID item tidak tersedia. Silakan Ulangi!")
-    while True:
-        jml = int(input("Jumlah: "))
-        if jml <= int(arr_m[r_idx][3]):
-            break
-        else:
-            print(f"Permintaan tidak dapat dipenuhi")
-            print(f"Jumlah item tersisa : {arr_m[r_idx][3]}")
-    while True:
-        tgl = input("Tanggal permintaan: ")
-        if check(tgl,'tanggal'):
-            break
-        else:
-            print("Masukan salah!")
-    print(f"Item {arr_m[r_idx][1]} (x{jml}) telah berhasil diambil!")
-    arr_m[r_idx][3] = str(int(arr_m[r_idx][3]) - jml)
-    id = f"CH{len(arr_ch)}"
-    id_pengambil = user_Logged[0]
-    id_consumable = arr_m[r_idx][0]
-    arr = [id,id_pengambil,id_consumable,tgl,str(jml)]
-    arr_ch.append(arr)
-    # consumable history belum dimasukkan, sistem login dan identifikasi user belum ada
-    return arr_m, arr_ch
+    if int(arr_m[r_idx][3]) == 0 :
+        print("Item sudah habis!")
+        return arr_m, arr_ch
+    else:
+        while True:
+            jml = int(input("Jumlah: "))
+            if jml <= int(arr_m[r_idx][3]) and jml > 0:
+                break
+            elif jml > int(arr_m[r_idx][3]) and jml>0:
+                print(f"Permintaan tidak dapat dipenuhi")
+                print(f"Jumlah item tersisa : {arr_m[r_idx][3]}")
+            else:
+                print("Masukan tidak valid!")
+        while True:
+            tgl = input("Tanggal permintaan: ")
+            if check(tgl, 'tanggal'):
+                break
+            else:
+                print("Masukan salah!")
+        print(f"Item {arr_m[r_idx][1]} (x{jml}) telah berhasil diambil!")
+        arr_m[r_idx][3] = str(int(arr_m[r_idx][3]) - jml)
+        id = f"CH{len(arr_ch)}"
+        id_pengambil = user_Logged[0]
+        id_consumable = arr_m[r_idx][0]
+        arr = [id, id_pengambil, id_consumable, tgl, str(jml)]
+        arr_ch.append(arr)
+        # consumable history belum dimasukkan, sistem login dan identifikasi user belum ada
+        return arr_m, arr_ch
+
 
 def help(x):
     if x == "user":
@@ -602,13 +625,12 @@ def help(x):
         print(" pinjam - untuk melakukan peminjaman gadget")
         print(" kembalikan - untuk mengembalikan gadget secara seutuhnya")
         print(" minta - untuk meminta consumable yang tersedia")
-        print(" save - untuk melakukan penyimpanan ke dalam file")
+        print(" savedata - untuk melakukan penyimpanan ke dalam file")
         print(" help - untuk memberikan panduan penggunaan sistem")
     elif x == "admin":
         print(" ================== HELP ==================")
-        print(" login - untuk melakukan login ke dalam sistem")
         print(" register - untuk melakukan registrasi user baru")
-        print(" carirarity - untuk mencari gadget dengan rarity tertentu")
+        print(" carararity - untuk mencari gadget dengan rarity tertentu")
         print(" caritahun - untuk mencari gadget berdasarkan tahun ditemukan")
         print(" tambahitem - untuk melakukan penambahan item")
         print(" hapusitem - untuk menghapus suatu item pada database")
@@ -616,27 +638,29 @@ def help(x):
         print(" riwayatpinjam - untuk melihat riwayat peminjaman gadget")
         print(" riwayatkembali - untuk melihat riwayat pengembalian gadget")
         print(" riwayatambil - untuk melihat riwayat pengambilan consumable")
-        print(" save - untuk melakukan penyimpanan ke dalam file")
+        print(" savedata - untuk melakukan penyimpanan ke dalam file")
         print(" help - untuk memberikan panduan penggunaan sistem")
 
-def exit(folder, owd) :
+
+def exit(folder, owd):
     if au_def == au_cus and ag_def == ag_cus and ac_def == ac_cus and ach_def == ach_cus and agbh_def == agbh_cus and agrh_def == agrh_cus:
         print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
     else:
-        while True :
+        while True:
             Z = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n): ")
-            if Z.lower() == 'y' :
-                save(folder, owd, au_cus, ag_cus, ac_cus ,ach_cus, agbh_cus, agrh_cus)
+            if Z.lower() == 'y':
+                save(folder, owd, au_cus, ag_cus, ac_cus, ach_cus, agbh_cus, agrh_cus)
                 print("Saving...")
                 time.sleep(1)
                 print("Done!")
                 print("Terima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
                 break
-            elif Z.lower() == 'n' :
+            elif Z.lower() == 'n':
                 print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
                 break
-            else :
+            else:
                 print("\nMasukkan salah, ulangi!")
+
 
 def login():
     M = csv_reader("user.csv")
@@ -644,9 +668,9 @@ def login():
     while not found:
         username = input("Masukkan username: ").strip()
         password = input("Masukkan password: ")
-        for i in range (1,len(M)):
+        for i in range(1, len(M)):
             if (M[i][1] == username) and (M[i][4] == password):
-                print("\nLogin sukses, selamat datang %s\n" %username)
+                print("\nLogin sukses, selamat datang %s\n" % username)
                 global userID
                 userID = username
                 global userStatus
@@ -654,7 +678,7 @@ def login():
                 global user_Logged
                 user_Logged = M[i]
                 return True
-        if not found :
+        if not found:
             while True:
                 a = input("Username atau password salah, ulangi login (y/n):  ")
                 if a.lower() == 'n':
@@ -664,7 +688,8 @@ def login():
                 else:
                     print("Masukan salah!")
 
-    #print(userID,userStatus) #Bisa
+    # print(userID,userStatus) #Bisa
+
 
 def register(arr):
     # arr_u : au_cus
@@ -675,24 +700,26 @@ def register(arr):
         username = input("Masukkan username: ").strip()
         password = input("Masukkan password: ").strip()
         alamat = input("Masukkan alamat: ")
-        unik = True #Asumsi masukan awal unik
-        for i in range (1,len(arr_u)): #Validasi username dan password baru terhadap data lama
+        unik = True  # Asumsi masukan awal unik
+        for i in range(1, len(arr_u)):  # Validasi username dan password baru terhadap data lama
             if arr_u[i][1] == username:
-                unik = False  #Tidak unik
+                unik = False  # Tidak unik
                 print("Username sudah tersedia, silakan daftar username lain!")
                 break
         if unik == True:
-            found = False #Break loop while
+            found = False  # Break loop while
     id = f"U{len(arr_u)}"
-    arr_res = [id,username,nama,alamat,password,"user"]
+    arr_res = [id, username, nama, alamat, password, "user"]
     arr_u.append(arr_res)
     print("User berhasil diregistrasi!")
     return arr_u
 
+
 def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
     N = csv_reader("gadget.csv")
-    rarity = input("Masukkan rarity: ").upper() #Input rarity dipastikan selalu benar (C,B,A,S), code upper memaksa selalu kapital
-    for i in range(1,len(N)):
+    rarity = input(
+        "Masukkan rarity: ").upper()  # Input rarity dipastikan selalu benar (C,B,A,S), code upper memaksa selalu kapital
+    for i in range(1, len(N)):
         if rarity == N[i][4]:
             print("Hasil pencarian:")
             print("")
@@ -703,34 +730,35 @@ def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
             print(f"Tahun Ditemukan  : {N[i][4]}")
             print("")
 
+
 def caritahun():
     N = csv_reader("gadget.csv")
     tahun = input("Masukkan tahun: ")
     kategori = input("Masukkan kategori: ")
-    #Array sementara penyimpanan data kategori
+    # Array sementara penyimpanan data kategori
     arr = []
     if kategori == "=":
-        for i in range (1,len(N)):
+        for i in range(1, len(N)):
             if N[i][5] == tahun:
                 arr.append(N[i])
     elif kategori == ">":
-        for i in range (1,len(N)):
+        for i in range(1, len(N)):
             if N[i][5] > tahun:
                 arr.append(N[i])
     elif kategori == "<":
-        for i in range (1,len(N)):
+        for i in range(1, len(N)):
             if N[i][5] < tahun:
                 arr.append(N[i])
     elif kategori == ">=":
-        for i in range (1,len(N)):
+        for i in range(1, len(N)):
             if N[i][5] >= tahun:
                 arr.append(N[i])
     elif kategori == "<=":
-        for i in range (1,len(N)):
+        for i in range(1, len(N)):
             if N[i][5] <= tahun:
                 arr.append(N[i])
-    #Proses array sementara yang menyimpan kategori yang diinginkan
-    for i in range (len(arr)):
+    # Proses array sementara yang menyimpan kategori yang diinginkan
+    for i in range(len(arr)):
         print("Hasil pencarian:")
         print("")
         print(f"Nama             : {arr[i][1]}")
@@ -740,10 +768,11 @@ def caritahun():
         print(f"Tahun Ditemukan  : {arr[i][5]}")
         print("")
 
-def write_to_csv(arr,filename):         #fungsi khusus array to csv
+
+def write_to_csv(arr, filename):  # fungsi khusus array to csv
     l1 = len(arr)
     l2 = len(arr[0])
-    for i in range(l1):  #jumlah data
+    for i in range(l1):  # jumlah data
         if i == 0:
             s = "w"
             string = ""
@@ -752,26 +781,29 @@ def write_to_csv(arr,filename):         #fungsi khusus array to csv
             string = "\n"
         for j in range(l2):
             string += arr[i][j]
-            if j != (l2-1):
+            if j != (l2 - 1):
                 string += ";"
         csv_writer(filename, string, s)  #
 
+
 def save(fldr, OWD, au, ag, ac, ach, agbh, agrh):
-    os.chdir(OWD)  #kembali ke folder sebelumnya
-    f_path = f"{OWD}/{fldr}"        #folder path
-    if not(os.path.exists(f_path)):   #folder tujuan tidak ada
-        os.mkdir(f_path)                  #membuat folder
-    os.chdir(f_path)                  #pindah ke folder tujuan
-    check(f_path, "files")            #mengecek file (akan dibuatkan csv jika tidak ada)
-    write_to_csv(au,"user.csv")
-    write_to_csv(ag,"gadget.csv")
-    write_to_csv(ac,"consumable.csv")
-    write_to_csv(ach,"consumable_history.csv")
-    write_to_csv(agbh,"gadget_borrow_history.csv")
-    write_to_csv(agrh,"gadget_return_history.csv")
+    os.chdir(OWD)  # kembali ke folder sebelumnya
+    f_path = f"{OWD}/{fldr}"  # folder path
+    if not (os.path.exists(f_path)):  # folder tujuan tidak ada
+        os.mkdir(f_path)  # membuat folder
+    os.chdir(f_path)  # pindah ke folder tujuan
+    check(f_path, "files")  # mengecek file (akan dibuatkan csv jika tidak ada)
+    write_to_csv(au, "user.csv")
+    write_to_csv(ag, "gadget.csv")
+    write_to_csv(ac, "consumable.csv")
+    write_to_csv(ach, "consumable_history.csv")
+    write_to_csv(agbh, "gadget_borrow_history.csv")
+    write_to_csv(agrh, "gadget_return_history.csv")
+
 
 def getowd():
     return os.getcwd()
+
 
 def load():
     parser = argparse.ArgumentParser(usage="python tfile.py <nama_folder>")
@@ -785,9 +817,9 @@ def load():
         quit(0)
     else:
         folder = args.nama_folder
-        path = f"{os.getcwd()}\{folder}"  #os.getcwd() menghasilkan current working directory
+        path = f"{os.getcwd()}\{folder}"  # os.getcwd() menghasilkan current working directory
         try:
-            os.chdir(path)  #change current working directory
+            os.chdir(path)  # change current working directory
         except FileNotFoundError:
             print("Folder tidak ditemukan!")
             quit(0)
@@ -796,8 +828,8 @@ def load():
 
 
 # MAIN PROGRAM
-owd = getowd()                   #original working directory
-current_folder = load()          #loading data
+owd = getowd()  # original working directory
+current_folder = load()  # loading data
 check(os.getcwd(), "files")
 # def : default, cus : customized
 au_def = csv_reader("user.csv")  # inisialisasi array user
@@ -825,22 +857,22 @@ while True:
                 isAdmin = True
         else:
             print("Anda sudah log in")
-    elif a == 'register':  #akses : Admin
+    elif a == 'register':  # akses : Admin
         if isLoggedIn and isAdmin:
             au_cus = register(au_cus)
         elif isLoggedIn and not isAdmin:
             print("Anda user, akses ini hanya untuk admin")
-        else:  #not(isLoggedIn)
+        else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == 'pinjam':  #akses : user
+    elif a == 'pinjam':  # akses : user
         if isLoggedIn and not isAdmin:
             pinjam()
             print(agbh_cus)  # buat ngetes apa udah ke update agbh_cus-nya
         elif isLoggedIn and isAdmin:
             print("Anda Admin, akses ini hanya untuk user")
-        else: #not(isLoggedIn)
+        else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == 'ubahjumlah':  #akses : admin
+    elif a == 'ubahjumlah':  # akses : admin
         if isLoggedIn and isAdmin:
             new_list = ubahjumlah()
             try:
@@ -854,7 +886,7 @@ while True:
             print("Anda user, akses ini hanya untuk admin")
         else:  # not(isLoggedIn) or not(isAdmin):
             print("Anda belum login")
-    elif a == 'hapusitem':  #akses : admin
+    elif a == 'hapusitem':  # akses : admin
         if isLoggedIn and isAdmin:
             new_list = hapusitem()
             try:
@@ -868,7 +900,7 @@ while True:
             print("Anda user, akses ini hanya untuk admin")
         else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == 'tambahitem': #akses : admin
+    elif a == 'tambahitem':  # akses : admin
         if isLoggedIn and isAdmin:
             new_item = tambahitem()
             if len(new_item) == 6:  # gadget
@@ -884,58 +916,58 @@ while True:
         print(ag_cus)
     elif a == "cons":
         print(ac_cus)
-    elif a == "minta": #akses : user
+    elif a == "minta":  # akses : user
         if isLoggedIn and not isAdmin:
             ac_cus, ach_cus = minta(ac_cus, ach_cus)
         elif isLoggedIn and isAdmin:
             print("Anda admin, akses ini hanya untuk user")
-        else: # not(isLoggedIn)
+        else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == "riwayatambil": #akses : admin
+    elif a == "riwayatambil":  # akses : admin
         if isLoggedIn and isAdmin:
             riwayat(ach_def, "a")
         elif isLoggedIn and not isAdmin:
             print("Anda user, akses ini hanya untuk admin")
         else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == "riwayatpinjam": #akses : admin
+    elif a == "riwayatpinjam":  # akses : admin
         if isLoggedIn and isAdmin:
             riwayat(agbh_def, "p")
         elif isLoggedIn and not isAdmin:
             print("Anda user, akses ini hanya untuk admin")
         else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == "riwayatkembali": #akses : admin
+    elif a == "riwayatkembali":  # akses : admin
         if isLoggedIn and isAdmin:
             riwayat(agrh_def, "k")
         elif isLoggedIn and not isAdmin:
             print("Anda user, akses ini hanya untuk admin")
         else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == "kembalikan": #akses : user
+    elif a == "kembalikan":  # akses : user
         if isLoggedIn and not isAdmin:
-            agrh_cus = kembalikan(agbh_cus, agrh_cus,ag_cus)
+            agrh_cus = kembalikan(agbh_cus, agrh_cus, ag_cus)
         elif isLoggedIn and isAdmin:
             print("Anda admin, akses ini hanya untuk user")
         else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == "carirarity":  #akses : admin, user
-        if isLoggedIn :
+    elif a == "carirarity":  # akses : admin, user
+        if isLoggedIn:
             rarity()
-        else: # not(isLoggedIn)
+        else:  # not(isLoggedIn)
             print("Anda belum login")
-    elif a == "caritahun": #akses : admin, user
+    elif a == "caritahun":  # akses : admin, user
         if isLoggedIn:
             caritahun()
         else:
             print("Anda belum login")
-    elif a == "help":  #akses : user,admin
+    elif a == "help":  # akses : user,admin
         if isLoggedIn:
             x = userStatus
             help(x)
         else:
             print("Anda belum login")
-    elif a == "save": #akses : user, admin
+    elif a == "save":  # akses : user, admin
         if isLoggedIn:
             fldr_input = input("Masukkan nama folder penyimpanan: ")
             save(fldr_input, owd, au_cus, ag_cus, ac_cus, ach_cus, agbh_cus, agrh_cus)
