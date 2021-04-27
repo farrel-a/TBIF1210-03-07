@@ -625,7 +625,7 @@ def help(x):
         print(" pinjam - melakukan peminjaman gadget")
         print(" kembalikan - mengembalikan gadget secara seutuhnya")
         print(" minta - meminta consumable yang tersedia")
-        print(" savedata - melakukan penyimpanan ke dalam file")
+        print(" save - melakukan penyimpanan ke dalam file")
         print(" help - memberikan panduan penggunaan sistem")
     elif x == "admin":
         print(" ================== HELP ==================")
@@ -639,7 +639,7 @@ def help(x):
         print(" riwayatpinjam - melihat riwayat peminjaman gadget")
         print(" riwayatkembali - melihat riwayat pengembalian gadget")
         print(" riwayatambil - melihat riwayat pengambilan consumable")
-        print(" savedata - melakukan penyimpanan ke dalam file")
+        print(" save - melakukan penyimpanan ke dalam file")
         print(" help - memberikan panduan penggunaan sistem")
 
 
