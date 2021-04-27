@@ -116,7 +116,7 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
 
     elif var_name == "files":
         # n : string (folder path), var_name : "files"
-        os.chdir(n)  #menuju folder
+        os.chdir(n)  #path menuju folder
         if not(os.path.exists("user.csv")):
             f = open("user.csv","x")
             f.close()
@@ -624,19 +624,22 @@ def login():
         for i in range (1,len(M)):
             if (M[i][1] == username) and (M[i][4] == password):
                 print("\nLogin sukses, selamat datang %s\n" %username)
-                found = True
                 global userID
                 userID = username
                 global userStatus
                 userStatus = M[i][5]
                 global user_Logged
                 user_Logged = M[i]
-                break
+                return True
         if not found :
-            print("Username atau password salah, ulangi login [y/n]")
-            a = input(">>> ")
-            if a.lower() == 'n':
-                found = True
+            while True:
+                a = input("Username atau password salah, ulangi login (y/n):  ")
+                if a.lower() == 'n':
+                    return False
+                elif a.lower() == 'y':
+                    break
+                else:
+                    print("Masukan salah!")
 
     #print(userID,userStatus) #Bisa
 
@@ -772,6 +775,7 @@ def load():
 # MAIN PROGRAM
 owd = getowd()                   #original working directory
 current_folder = load()          #loading data
+check(os.getcwd(),"files")
 # def : default, cus : customized
 au_def = csv_reader("user.csv")  # inisialisasi array user
 au_cus = csv_reader("user.csv")
@@ -792,8 +796,8 @@ while True:
     a = input(">>> ")
     if a == 'login':
         if not isLoggedIn:
-            login()
-            isLoggedIn = True
+            userStatus = None
+            isLoggedIn = login()
             if userStatus == 'admin':
                 isAdmin = True
         else:
@@ -888,7 +892,7 @@ while True:
     elif a == "kembalikan": #akses : user
         if isLoggedIn and not isAdmin:
             agrh_cus = kembalikan(agbh_cus, agrh_cus,ag_cus)
-        elif isLoggedIn and not isAdmin:
+        elif isLoggedIn and isAdmin:
             print("Anda admin, akses ini hanya untuk user")
         else:  # not(isLoggedIn)
             print("Anda belum login")
