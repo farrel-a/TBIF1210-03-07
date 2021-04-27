@@ -120,21 +120,33 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
         if not(os.path.exists("user.csv")):
             f = open("user.csv","x")
             f.close()
+            string = "id;username;nama;alamat;password;role"
+            csv_writer("user.csv", string, "w")
         if not(os.path.exists("gadget.csv")):
             f = open("gadget.csv","x")
             f.close()
+            string = "id;nama;deskripsi;jumlah;rarity;tahun_ditemukan"
+            csv_writer("gadget.csv", string, "w")
         if not(os.path.exists("consumable.csv")):
             f = open("consumable.csv", "x")
             f.close()
+            string = "id;nama;deskripsi;jumlah;rarity"
+            csv_writer("consumable.csv", string, "w")
         if not(os.path.exists("consumable_history.csv")):
             f = open("consumable_history.csv", "x")
             f.close()
+            string = "id;id_pengambil;id_consumable;tanggal_pengambilan;jumlah"
+            csv_writer("consumable_history.csv", string, "w")
         if not(os.path.exists("gadget_borrow_history.csv")):
             f = open("gadget_borrow_history.csv","x")
             f.close()
+            string = "id;id_peminjam;id_gadget;tanggal_peminjaman;jumlah;is_returned"
+            csv_writer("gadget_borrow_history.csv", string, "w")
         if not(os.path.exists("gadget_return_history.csv")):
             f = open("gadget_return_history.csv","x")
             f.close()
+            string = "id;id_peminjaman;tanggal_pengembalian"
+            csv_writer("gadget_return_history.csv", string, "w")
 
     else:
         return True
@@ -478,8 +490,7 @@ def riwayat(arr, mode):
                 for x in range(5):  # descending per 5 data
                     print(f"ID Pengembalian : {arr_rk[i][0]}")
                     print(f"Nama Pengambil : {arr_rk[i][1]}")
-                    print(f"Nama Gadget : {arr_rk[i][2]}")
-                    print(f"Tanggal Pengembalian : {arr_rk[i][3]} \n")
+                    print(f"Tanggal Pengembalian : {arr_rk[i][2]} \n")
                     if i - 1 == 0:
                         flag1 = False
                         flag2 = False
@@ -717,7 +728,7 @@ def caritahun():
         print(f"Tahun Ditemukan  : {arr[i][5]}")
         print("")
 
-def write_to_csv(arr,filename):
+def write_to_csv(arr,filename):         #fungsi khusus array to csv
     l1 = len(arr)
     l2 = len(arr[0])
     for i in range(l1):  #jumlah data
@@ -731,7 +742,7 @@ def write_to_csv(arr,filename):
             string += arr[i][j]
             if j != (l2-1):
                 string += ";"
-        csv_writer(filename, string, s)
+        csv_writer(filename, string, s)  #
 
 def save(fldr, OWD, au, ag, ac, ach, agbh, agrh):
     os.chdir(OWD)  #kembali ke folder sebelumnya
@@ -775,7 +786,7 @@ def load():
 # MAIN PROGRAM
 owd = getowd()                   #original working directory
 current_folder = load()          #loading data
-check(os.getcwd(),"files")
+check(os.getcwd(), "files")
 # def : default, cus : customized
 au_def = csv_reader("user.csv")  # inisialisasi array user
 au_cus = csv_reader("user.csv")
