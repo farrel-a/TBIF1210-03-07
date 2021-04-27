@@ -1,3 +1,5 @@
+import os, argparse, time
+
 def csv_reader(file_name):
     filename = file_name  # nama file di sini
     f = open(filename, "r")  # read mode membuka file csv dan disimpan dalam variabel f
@@ -111,10 +113,31 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
         else:
             print("\nInput rarity tidak valid!")
             return False
+
+    elif var_name == "files":
+        # n : string (folder path), var_name : "files"
+        os.chdir(n)  #menuju folder
+        if not(os.path.exists("user.csv")):
+            f = open("user.csv","x")
+            f.close()
+        if not(os.path.exists("gadget.csv")):
+            f = open("gadget.csv","x")
+            f.close()
+        if not(os.path.exists("consumable.csv")):
+            f = open("consumable.csv", "x")
+            f.close()
+        if not(os.path.exists("consumable_history.csv")):
+            f = open("consumable_history.csv", "x")
+            f.close()
+        if not(os.path.exists("gadget_borrow_history.csv")):
+            f = open("gadget_borrow_history.csv","x")
+            f.close()
+        if not(os.path.exists("gadget_return_history.csv")):
+            f = open("gadget_return_history.csv","x")
+            f.close()
+
     else:
         return True
-
-
 
 def id_check(n):  # memvalidasi id yang dimasukkan
     i = 1  # i = 1 karena indeks ke-0 berisi tag_list
@@ -286,7 +309,6 @@ def op_ubahjumlah(id, ref_list):
             i += 1
         print('Tidak ada item dengan ID tersebut.')
         return ref_list
-
 
 def pinjam():
     id = input("Masukkan ID item: ")
@@ -574,14 +596,18 @@ def help(x):
         print(" savedata - untuk melakukan penyimpanan ke dalam file")
         print(" help - untuk memberikan panduan penggunaan sistem")
 
-def exit() :
+def exit(folder, owd) :
     if au_def == au_cus and ag_def == ag_cus and ac_def == ac_cus and ach_def == ach_cus and agbh_def == agbh_cus and agrh_def == agrh_cus:
         print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
     else:
         while True :
             Z = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n): ")
             if Z.lower() == 'y' :
-                save()
+                save(folder, owd, au_cus, ag_cus, ac_cus ,ach_cus, agbh_cus, agrh_cus)
+                print("Saving...")
+                time.sleep(1)
+                print("Done!")
+                print("Terima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
                 break
             elif Z.lower() == 'n' :
                 print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
@@ -634,6 +660,7 @@ def register(arr):
     id = f"U{len(arr_u)}"
     arr_res = [id,username,nama,alamat,password,"user"]
     arr_u.append(arr_res)
+    print("User berhasil diregistrasi!")
     return arr_u
 
 def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
@@ -687,7 +714,64 @@ def caritahun():
         print(f"Tahun Ditemukan  : {arr[i][5]}")
         print("")
 
+def write_to_csv(arr,filename):
+    l1 = len(arr)
+    l2 = len(arr[0])
+    for i in range(l1):  #jumlah data
+        if i == 0:
+            s = "w"
+            string = ""
+        else:
+            s = "a"
+            string = "\n"
+        for j in range(l2):
+            string += arr[i][j]
+            if j != (l2-1):
+                string += ";"
+        csv_writer(filename, string, s)
+
+def save(fldr, OWD, au, ag, ac, ach, agbh, agrh):
+    os.chdir(OWD)  #kembali ke folder sebelumnya
+    f_path = f"{OWD}/{fldr}"        #folder path
+    if not(os.path.exists(f_path)):   #folder tujuan tidak ada
+        os.mkdir(f_path)                  #membuat folder
+    os.chdir(f_path)                  #pindah ke folder tujuan
+    check(f_path, "files")            #mengecek file (akan dibuatkan csv jika tidak ada)
+    write_to_csv(au,"user.csv")
+    write_to_csv(ag,"gadget.csv")
+    write_to_csv(ac,"consumable.csv")
+    write_to_csv(ach,"consumable_history.csv")
+    write_to_csv(agbh,"gadget_borrow_history.csv")
+    write_to_csv(agrh,"gadget_return_history.csv")
+
+def getowd():
+    return os.getcwd()
+
+def load():
+    parser = argparse.ArgumentParser(usage="python tfile.py <nama_folder>")
+    parser.add_argument("nama_folder")
+    try:
+        args = parser.parse_args()
+    except SystemExit:
+        print()
+        print("| Tidak ada nama folder yang diberikan!")
+        print("| Usage: python tfile.py <nama_folder>")
+        quit(0)
+    else:
+        folder = args.nama_folder
+        path = f"{os.getcwd()}\{folder}"  #os.getcwd() menghasilkan current working directory
+        try:
+            os.chdir(path)  #change current working directory
+        except FileNotFoundError:
+            print("Folder tidak ditemukan!")
+            quit(0)
+        else:
+            return folder
+
+
 # MAIN PROGRAM
+owd = getowd()                   #original working directory
+current_folder = load()          #loading data
 # def : default, cus : customized
 au_def = csv_reader("user.csv")  # inisialisasi array user
 au_cus = csv_reader("user.csv")
@@ -716,9 +800,7 @@ while True:
             print("Anda sudah log in")
     elif a == 'register':  #akses : Admin
         if isLoggedIn and isAdmin:
-            print(au_cus)
             au_cus = register(au_cus)
-            print(au_cus)
         elif isLoggedIn and not isAdmin:
             print("Anda user, akses ini hanya untuk admin")
         else:  #not(isLoggedIn)
@@ -826,6 +908,22 @@ while True:
             help(x)
         else:
             print("Anda belum login")
+    elif a == "save": #akses : user, admin
+        if isLoggedIn:
+            fldr_input = input("Masukkan nama folder penyimpanan: ")
+            save(fldr_input, owd, au_cus, ag_cus, ac_cus, ach_cus, agbh_cus, agrh_cus)
+            au_def = csv_reader("user.csv")
+            ag_def = csv_reader("gadget.csv")
+            ac_def = csv_reader('consumable.csv')
+            ach_def = csv_reader("consumable_history.csv")
+            agbh_def = csv_reader("gadget_borrow_history.csv")
+            agrh_def = csv_reader("gadget_return_history.csv")
+            current_folder = fldr_input
+            print("Saving...")
+            time.sleep(1)
+            print(f"Data telah disimpan pada folder {fldr_input}!")
+        else:
+            print("Anda belum login")
     elif a == "exit":
-        exit()
+        exit(current_folder, owd)
         break
