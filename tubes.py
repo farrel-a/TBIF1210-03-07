@@ -397,7 +397,7 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                             return ref_list
                             break
                         elif sum == 0:
-                            print('\Gadget habis!)
+                            print('\nGadget habis!')
                             return ref_list
                             break
                         else:
