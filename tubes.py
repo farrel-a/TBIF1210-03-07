@@ -179,10 +179,9 @@ def id_check(n):  # memvalidasi id yang dimasukkan
             return False
 
 
-def find_id(n, ref_list):
+def find_id(n, ref_list): #mencari apakah ada  gadget/cosumables dengan id yang diinput pengguna 
     n = n.upper()
     i = 1
-    # n = n[1:]
     while i < len(ref_list):
         if ref_list[i][0] == n:
             return True
@@ -194,16 +193,16 @@ def find_id(n, ref_list):
 
 def op_tambahitem(id, temp_list, ref_file, ref_arr, total):
     while True:
-        if not (id_check(id)):
+        if not (id_check(id)):#memvlidasi input id
             print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
             return []
             break
-        if find_id(id, ref_arr):
+        if find_id(id, ref_arr):#mencari apakah id ada
             print("\nGagal menambahkan item karena ID sudah ada")
             return []
             break
-        temp_list.append(id)
-        tag_list = csv_reader(ref_file)[0]
+        temp_list.append(id)#menambahkan atribut id ke dalam array baru
+        tag_list = csv_reader(ref_file)[0] #[id, nama, desc.....]
         tag_list.pop(0)
         for i in tag_list:  # [nama, deskripsi, jumlah......]
             if i == 'tahun_ditemukan':
@@ -253,7 +252,7 @@ def hapusitem():
         if op_ask_id(id, ac_cus):
             return delete_by_id(id, ac_cus)
         else:
-            return ag_cus
+            return ac_cus
     else:
         print('\nTidak ada item dengan ID tersebut.')
 
@@ -876,7 +875,7 @@ while True:
         if isLoggedIn and isAdmin:
             new_list = ubahjumlah()
             try:
-                if len(new_list) == 6:
+                if len(new_list[0]) == 6: #berarti gadget
                     ag_cus = new_list
                 else:
                     ac_cus = new_list
@@ -890,7 +889,7 @@ while True:
         if isLoggedIn and isAdmin:
             new_list = hapusitem()
             try:
-                if len(new_list) == 6:
+                if len(new_list[0]) == 6:
                     ag_cus = new_list
                 else:
                     ac_cus = new_list
