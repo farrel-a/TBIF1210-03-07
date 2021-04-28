@@ -134,7 +134,7 @@ def check(n, var_name):  # mencek input pengguna saat menambah item
         if not (os.path.exists("user.csv")):
             f = open("user.csv", "x")
             f.close()
-            string = "id;username;nama;alamat;password;role"
+            string = "id;username;nama;alamat;password;role\nU1;rel;Farrel;Jalan Panjang;rel123;admin"
             csv_writer("user.csv", string, "w")
         if not (os.path.exists("gadget.csv")):
             f = open("gadget.csv", "x")
@@ -642,7 +642,6 @@ def help(x):
         print(" save - melakukan penyimpanan ke dalam file")
         print(" help - memberikan panduan penggunaan sistem")
 
-
 def exit(folder, owd):
     if au_def == au_cus and ag_def == ag_cus and ac_def == ac_cus and ach_def == ach_cus and agbh_def == agbh_cus and agrh_def == agrh_cus:
         print("\nTerima kasih sudah menggunakan Kantong Ajaib, Semoga harimu menyenangkan!")
@@ -671,7 +670,7 @@ def login():
         password = input("Masukkan password: ")
         for i in range(1, len(M)):
             if (M[i][1] == username) and (M[i][4] == password):
-                print("\nLogin sukses, selamat datang %s\n" % username)
+                print("\nLogin sukses, selamat datang %s\n" % M[i][2])
                 global userID
                 userID = username
                 global userStatus
@@ -700,7 +699,7 @@ def register(arr):
         nama = input("Masukkan nama: ").title().strip()
         username = input("Masukkan username: ").strip()
         password = input("Masukkan password: ").strip()
-        alamat = input("Masukkan alamat: ")
+        alamat = input("Masukkan alamat: ").title()
         unik = True  # Asumsi masukan awal unik
         for i in range(1, len(arr_u)):  # Validasi username dan password baru terhadap data lama
             if arr_u[i][1] == username:
