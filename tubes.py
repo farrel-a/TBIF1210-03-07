@@ -769,15 +769,18 @@ def caritahun():
             if N[i][5] <= tahun:
                 arr.append(N[i])
     # Proses array sementara yang menyimpan kategori yang diinginkan
-    for i in range(len(arr)):
-        print("Hasil pencarian:")
-        print("")
-        print(f"Nama             : {arr[i][1]}")
-        print(f"Deskripsi        : {arr[i][2]}")
-        print(f"Jumlah           : {arr[i][3]}")
-        print(f"Rarity           : {arr[i][4]}")
-        print(f"Tahun Ditemukan  : {arr[i][5]}")
-        print("")
+    if arr == []:
+        print("Tidak ada gadget ditemukan")
+    else: #Array berisi data sesuai kategori
+        for i in range(len(arr)):
+            print("Hasil pencarian:")
+            print("")
+            print(f"Nama             : {arr[i][1]}")
+            print(f"Deskripsi        : {arr[i][2]}")
+            print(f"Jumlah           : {arr[i][3]}")
+            print(f"Rarity           : {arr[i][4]}")
+            print(f"Tahun Ditemukan  : {arr[i][5]}")
+            print("")
 
 
 def write_to_csv(arr, filename):  # fungsi khusus array to csv
