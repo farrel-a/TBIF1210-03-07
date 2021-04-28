@@ -400,7 +400,7 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                             j = 0
                             while j < len(borrow_list):
                                 j += 1
-                            borrow = ['B'+str(j), user_Logged[2], ref_list[i][1], date, n, 'False']
+                            borrow = ['B'+str(j), user_Logged[0], ref_list[i][0], date, n, 'False']
                             global agbh_cus
                             agbh_cus.append(borrow)
                             ref_list[i][3] = str(sum)
