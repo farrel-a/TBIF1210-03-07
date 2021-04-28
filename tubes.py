@@ -371,14 +371,12 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
     isPernahPinjam = False
     while x < len(ref_list):
         if ref_list[x][0] == id:
-            name = ref_list[x][1]
+            name = ref_list[x][0]
             break
         else:
             x += 1
     while j < len(borrow_list):
-        # print(borrow_list[j][1:3])
-        # print([user_Logged[1], name])
-        if borrow_list[j][1:3] == [user_Logged[2], name]:  # berarti dah pernah minjem gadget yang sama
+        if borrow_list[len(borrow_list)-j][1:3] == [user_Logged[0], name] and borrow_list[len(borrow_list)-j][5] == 'False'  :  # berarti dah pernah minjem gadget yang sama
             print('\nAnda tidak dapat meminjam gadget yang sama!')
             isPernahPinjam = True
             break
