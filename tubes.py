@@ -684,7 +684,7 @@ def login():
         password = input("Masukkan password: ")
         for i in range(1, len(M)):
             if (M[i][1] == username) and (M[i][4] == password):
-                print("\nLogin sukses, selamat datang %s\n" % M[i][2])
+                print("\nLogin sukses, selamat datang %s.\n" % M[i][2])
                 global userID
                 userID = username
                 global userStatus
