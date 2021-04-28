@@ -391,26 +391,27 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
             if check(n, 'Jumlah'):
                 while i < len(ref_list):
                     if id == ref_list[i][0]:
-                        sum = int(ref_list[i][3]) - int(n)
-                        if sum < 0:
-                            print('\nGadget tidak cukup')
-                            return ref_list
-                            break
-                        elif sum == 0:
+                        if ref_list[i][3] == 0:
                             print('\nGadget habis!')
                             return ref_list
                             break
                         else:
-                            j = 0
-                            while j < len(borrow_list):
-                                j += 1
-                            borrow = ['B'+str(j), user_Logged[0], ref_list[i][0], date, n, 'False']
-                            global agbh_cus
-                            agbh_cus.append(borrow)
-                            ref_list[i][3] = str(sum)
-                            print()
-                            print("Item " + ref_list[i][1] + " (x" + n + ") berhasil dipinjam!")
-                            return ref_list
+                            sum = int(ref_list[i][3]) - int(n)
+                            if sum < 0:
+                                print('\nGadget tidak cukup')
+                                return ref_list
+                                break
+                            else:
+                                j = 0
+                                while j < len(borrow_list):
+                                    j += 1
+                                borrow = ['B'+str(j), user_Logged[0], ref_list[i][0], date, n, 'False']
+                                global agbh_cus
+                                agbh_cus.append(borrow)
+                                ref_list[i][3] = str(sum)
+                                print()
+                                print("Item " + ref_list[i][1] + " (x" + n + ") berhasil dipinjam!")
+                                return ref_list
                     
                     else:
                         i+=1
@@ -419,7 +420,7 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
             else:
                 return ref_list
         else:
-            print('\nTanggal tidak valid (MM/DD/YYYY), perhatikan tahun kabisat!')
+            print('\nTanggal tidak valid (DD/MM/YYYY), perhatikan tahun kabisat!')
             return ref_list
     else:
         return ref_list
