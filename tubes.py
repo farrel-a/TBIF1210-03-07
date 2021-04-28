@@ -174,7 +174,10 @@ def id_check(n):  # memvalidasi id yang dimasukkan
         n = n[1:]  # mengambil kode angka dari id
         try:
             f = int(n)  # mencek apakah kode angka id adalah bilangan bulat
-            return True
+            if f > 0:
+                return True
+            else:
+                return False
         except:
             return False
 
