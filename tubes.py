@@ -393,7 +393,11 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                     if id == ref_list[i][0]:
                         sum = int(ref_list[i][3]) - int(n)
                         if sum < 0:
-                            print('Gadget tidak cukup')
+                            print('\nGadget tidak cukup')
+                            return ref_list
+                            break
+                        elif sum == 0:
+                            print('\Gadget habis!)
                             return ref_list
                             break
                         else:
@@ -873,7 +877,6 @@ while True:
     elif a == 'pinjam':  # akses : user
         if isLoggedIn and not isAdmin:
             pinjam()
-            print(agbh_cus)  # buat ngetes apa udah ke update agbh_cus-nya
         elif isLoggedIn and isAdmin:
             print("Anda Admin, akses ini hanya untuk user")
         else:  # not(isLoggedIn)
