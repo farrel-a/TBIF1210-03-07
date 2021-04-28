@@ -998,3 +998,5 @@ while True:
     elif a == "exit":
         exit(current_folder, owd)
         break
+    else:
+        print("Fungsi tidak tersedia.Ulangi!")
