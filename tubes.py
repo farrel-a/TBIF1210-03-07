@@ -674,6 +674,9 @@ def exit(folder, owd):
 
 
 def login():
+    print("----------------------------------------------------------------------")
+    print("-----------------SELAMAT DATANG DI KANTONG DORAEMONANGIS--------------")
+    print("----------------------------------------------------------------------")
     M = csv_reader("user.csv")
     found = False
     while not found:
