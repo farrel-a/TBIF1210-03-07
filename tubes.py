@@ -387,7 +387,7 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
     if not (isPernahPinjam):
         date = input("Tanggal peminjaman: ")
         if check(date, 'tanggal'):
-            n = input("Jumlah Peminjaman: ")
+            n = input("Jumlah peminjaman: ")
             if check(n, 'Jumlah'):
                 while i < len(ref_list):
                     if id == ref_list[i][0]:
