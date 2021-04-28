@@ -395,19 +395,23 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                         if sum < 0:
                             print('Gadget tidak cukup')
                             return ref_list
+                            break
                         else:
                             j = 0
                             while j < len(borrow_list):
                                 j += 1
-                            borrow = [str(j), user_Logged[2], ref_list[i][1], date, n]
+                            borrow = ['B'+str(j), user_Logged[2], ref_list[i][1], date, n, 'False']
                             global agbh_cus
                             agbh_cus.append(borrow)
                             ref_list[i][3] = str(sum)
                             print()
-                            print("Item " + ref_list[i][1] + " (X" + n + ") berhasil dipinjam!")
+                            print("Item " + ref_list[i][1] + " (x" + n + ") berhasil dipinjam!")
                             return ref_list
-
-                return ref_list  # INI SEMENTARA
+                    
+                    else:
+                        i+=1
+                    
+                return ref_list  
             else:
                 return ref_list
         else:
