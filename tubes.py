@@ -913,11 +913,7 @@ while True:
             print("Anda user, akses ini hanya untuk admin")
         else:  # not(isLoggedIn)
             print("Anda belum login")
-    # ngetes apakah sudah masuk ke array sementaranya
-    elif a == "gadget":
-        print(ag_cus)
-    elif a == "cons":
-        print(ac_cus)
+   
     elif a == "minta":  # akses : user
         if isLoggedIn and not isAdmin:
             ac_cus, ach_cus = minta(ac_cus, ach_cus)
