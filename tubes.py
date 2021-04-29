@@ -723,7 +723,7 @@ def register(arr):
     id = f"U{len(arr_u)}"
     arr_res = [id, username, nama, alamat, password, "user"]
     arr_u.append(arr_res)
-    print("User berhasil diregistrasi!")
+    print("User", username,"berhasil diregistrasi ke dalam Kantong Doremonangis!")
     return arr_u
 
 
