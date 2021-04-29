@@ -673,7 +673,7 @@ def exit(folder, owd):
 
 def login():
     print("----------------------------------------------------------------------")
-    print("-----------------SELAMAT DATANG DI KANTONG DORAEMONANGIS--------------")
+    print("-----------------SELAMAT DATANG DI KANTONG DOREMONANGIS--------------")
     print("----------------------------------------------------------------------")
     M = csv_reader("user.csv")
     found = False
