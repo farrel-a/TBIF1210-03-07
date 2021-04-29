@@ -496,7 +496,7 @@ def find(id, op):
                 break
             else:
                 i += 1
-    if op == 'c':#minta nama gadget
+    if op == 'c':
         i = 1
         while i<len(ac_def):
             if id == ac_def[i][0]:
@@ -504,6 +504,22 @@ def find(id, op):
                 break
             else:
                 i += 1
+    elif op == 'bh_name':
+        i =1
+        while i < len(agbh_def):
+            if id == agbh_def[i][0]:
+                return  agbh_def[i][1]
+                break
+            else:
+                i+=1
+    elif op == 'bh_gadget':
+        i =1
+        while i < len(agbh_def):
+            if id == agbh_def[i][0]:
+                return  agbh_def[i][2]
+                break
+            else:
+                i+=1
 
 
 
@@ -552,8 +568,11 @@ def riwayat(arr, mode):
             while flag1:
                 flag2 = True
                 for x in range(5):  # descending per 5 data
+                    name = find(arr_rk[i][1], 'bh_name')
+                    gadget = find(arr_rk[i][1], 'bh_gadget')
                     print(f"ID Pengembalian : {arr_rk[i][0]}")
-                    print(f"Nama Pengambil : {find(arr_rk[i][1], 'u')}")
+                    print(f"Nama Pengambil : {find(name, 'u')}")
+                    print(f"Nama Gadget : {find(gadget, 'g')}")
                     print(f"Tanggal Pengembalian : {arr_rk[i][2]} \n")
                     if i - 1 == 0:
                         flag1 = False
