@@ -479,6 +479,35 @@ def kembalikan(arr1, arr2, arr3):
         return arr2
 
 
+def find(id, op):
+    if op == 'g':#minta nama gadget
+        i = 1
+        while i<len(ag_def):
+            if id == ag_def[i][0]:
+                return ag_def[i][1]
+                break
+            else:
+                i += 1
+    elif op == 'u':
+        i = 1
+        while i<len(au_def):
+            if id == au_def[i][0]:
+                return au_def[i][2]
+                break
+            else:
+                i += 1
+    if op == 'c':#minta nama gadget
+        i = 1
+        while i<len(ac_def):
+            if id == ac_def[i][0]:
+                return ac_def[i][1]
+                break
+            else:
+                i += 1
+
+
+
+
 def riwayat(arr, mode):
     if mode == "p":  # pinjam (gadget)
         arr_rp = arr
@@ -491,8 +520,8 @@ def riwayat(arr, mode):
                 flag2 = True
                 for x in range(5):  # descending per 5 data
                     print(f"ID Peminjaman : {arr_rp[i][0]}")
-                    print(f"Nama Pengambil : {arr_rp[i][1]}")
-                    print(f"Nama Gadget : {arr_rp[i][2]}")
+                    print(f"Nama Pengambil : {find(arr_rp[i][1], 'u')}")
+                    print(f"Nama Gadget : {find(arr_rp[i][2], 'g')}")
                     print(f"Tanggal Peminjaman : {arr_rp[i][3]}")
                     print(f"Jumlah : {arr_rp[i][4]} \n")
                     if i - 1 == 0:
@@ -524,7 +553,7 @@ def riwayat(arr, mode):
                 flag2 = True
                 for x in range(5):  # descending per 5 data
                     print(f"ID Pengembalian : {arr_rk[i][0]}")
-                    print(f"Nama Pengambil : {arr_rk[i][1]}")
+                    print(f"Nama Pengambil : {find(arr_rk[i][1], 'u')}")
                     print(f"Tanggal Pengembalian : {arr_rk[i][2]} \n")
                     if i - 1 == 0:
                         flag1 = False
@@ -555,8 +584,8 @@ def riwayat(arr, mode):
                 flag2 = True
                 for x in range(5):  # descending per 5 data
                     print(f"ID Pengambilan : {arr_ra[i][0]}")
-                    print(f"Nama Pengambil : {arr_ra[i][1]}")
-                    print(f"Nama Consumable : {arr_ra[i][2]}")
+                    print(f"Nama Pengambil : {find(arr_ra[i][1], 'u')}")
+                    print(f"Nama Consumable : {find(arr_ra[i][2], 'c')}")
                     print(f"Tanggal Pengambilan : {arr_ra[i][3]}")
                     print(f"Jumlah : {arr_ra[i][4]} \n")
                     if i - 1 == 0:
@@ -577,8 +606,6 @@ def riwayat(arr, mode):
                         print("Masukan Salah! Silahkan Ulangi")
                 if flag1 == False and flag2 == False:
                     break
-
-
 def minta(arr1, arr2):
     # arr_m : ac
     # arr_ch : ach
