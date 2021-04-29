@@ -673,7 +673,7 @@ def exit(folder, owd):
 
 def login():
     print("----------------------------------------------------------------------")
-    print("-----------------SELAMAT DATANG DI KANTONG DOREMONANGIS--------------")
+    print("-----------------SELAMAT DATANG DI KANTONG AJAIB----------------------")
     print("----------------------------------------------------------------------")
     M = csv_reader("user.csv")
     found = False
@@ -723,7 +723,7 @@ def register(arr):
     id = f"U{len(arr_u)}"
     arr_res = [id, username, nama, alamat, password, "user"]
     arr_u.append(arr_res)
-    print("User", username,"berhasil diregistrasi ke dalam Kantong Doremonangis!")
+    print("User", username,"berhasil diregistrasi ke dalam Kantong Ajaib!")
     return arr_u
 
 
@@ -871,21 +871,21 @@ while True:
             if userStatus == 'admin':
                 isAdmin = True
         else:
-            print("Anda sudah log in")
+            print("Anda sudah log in.")
     elif a == 'register':  # akses : Admin
         if isLoggedIn and isAdmin:
             au_cus = register(au_cus)
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == 'pinjam':  # akses : user
         if isLoggedIn and not isAdmin:
             pinjam()
         elif isLoggedIn and isAdmin:
-            print("Anda Admin, akses ini hanya untuk user")
+            print("Anda Admin, akses ini hanya untuk user.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == 'ubahjumlah':  # akses : admin
         if isLoggedIn and isAdmin:
             new_list = ubahjumlah()
@@ -897,9 +897,9 @@ while True:
             except:
                 pass
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn) or not(isAdmin):
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == 'hapusitem':  # akses : admin
         if isLoggedIn and isAdmin:
             new_list = hapusitem()
@@ -911,9 +911,9 @@ while True:
             except:
                 pass
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == 'tambahitem':  # akses : admin
         if isLoggedIn and isAdmin:
             new_item = tambahitem()
@@ -922,61 +922,61 @@ while True:
             elif len(new_item) == 5:  # consumable
                 ac_cus.append(new_item)
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
    
     elif a == "minta":  # akses : user
         if isLoggedIn and not isAdmin:
             ac_cus, ach_cus = minta(ac_cus, ach_cus)
         elif isLoggedIn and isAdmin:
-            print("Anda admin, akses ini hanya untuk user")
+            print("Anda admin, akses ini hanya untuk user.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "riwayatambil":  # akses : admin
         if isLoggedIn and isAdmin:
             riwayat(ach_def, "a")
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "riwayatpinjam":  # akses : admin
         if isLoggedIn and isAdmin:
             riwayat(agbh_def, "p")
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "riwayatkembali":  # akses : admin
         if isLoggedIn and isAdmin:
             riwayat(agrh_def, "k")
         elif isLoggedIn and not isAdmin:
-            print("Anda user, akses ini hanya untuk admin")
+            print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "kembalikan":  # akses : user
         if isLoggedIn and not isAdmin:
             agrh_cus = kembalikan(agbh_cus, agrh_cus, ag_cus)
         elif isLoggedIn and isAdmin:
-            print("Anda admin, akses ini hanya untuk user")
+            print("Anda admin, akses ini hanya untuk user.")
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "carirarity":  # akses : admin, user
         if isLoggedIn:
             rarity()
         else:  # not(isLoggedIn)
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "caritahun":  # akses : admin, user
         if isLoggedIn:
             caritahun()
         else:
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "help":  # akses : user,admin
         if isLoggedIn:
             x = userStatus
             help(x)
         else:
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "save":  # akses : user, admin
         if isLoggedIn:
             fldr_input = input("Masukkan nama folder penyimpanan: ")
@@ -992,7 +992,7 @@ while True:
             time.sleep(1)
             print(f"Data telah disimpan pada folder {fldr_input}!")
         else:
-            print("Anda belum login")
+            print("Anda belum login.")
     elif a == "exit":
         exit(current_folder, owd)
         break
