@@ -821,14 +821,14 @@ def getowd():
 
 
 def load():
-    parser = argparse.ArgumentParser(usage="python tfile.py <nama_folder>")
+    parser = argparse.ArgumentParser(usage="python tubes.py <nama_folder>")
     parser.add_argument("nama_folder")
     try:
         args = parser.parse_args()
     except SystemExit:
         print()
         print("| Tidak ada nama folder yang diberikan!")
-        print("| Usage: python tfile.py <nama_folder>")
+        print("| Usage: python tubes.py <nama_folder>")
         quit(0)
     else:
         folder = args.nama_folder
