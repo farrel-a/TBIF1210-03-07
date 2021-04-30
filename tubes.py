@@ -798,7 +798,7 @@ def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
 
 def caritahun():
     N = csv_reader("gadget.csv")
-    tahun = input("Masukkan tahun: ")
+    tahun = input("Masukkan tahun: ")             # Input tahun dan kategori dipastikan valid berdasarkan spesifikasi
     kategori = input("Masukkan kategori: ")
     # Array sementara penyimpanan data kategori
     arr = []
