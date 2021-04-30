@@ -1,3 +1,10 @@
+# PROGRAM KANTONG AJAIB DORAEMONANGIS
+# NAMA/NIM
+# Farrel Ahmad/16520373
+# Raden Haryosatyo Wisjnunandono – 16520253
+# Prabowo – 16520183
+# Fadlin Izhar Tarigan – 16520333
+
 import os, argparse, time
 
 
