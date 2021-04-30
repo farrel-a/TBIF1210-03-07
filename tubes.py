@@ -182,7 +182,7 @@ def id_check(n):  # memvalidasi id yang dimasukkan
             return False
 
 
-def find_id(n, ref_list):  # mencari apakah ada  gadget/cosumables dengan id yang diinput pengguna
+def find_id(n, ref_list): #mencari apakah ada  gadget/cosumables dengan id yang diinput pengguna 
     n = n.upper()
     i = 1
     while i < len(ref_list):
@@ -196,16 +196,16 @@ def find_id(n, ref_list):  # mencari apakah ada  gadget/cosumables dengan id yan
 
 def op_tambahitem(id, temp_list, ref_file, ref_arr, total):
     while True:
-        if not (id_check(id)):  # memvlidasi input id
+        if not (id_check(id)):#memvlidasi input id
             print("\nID salah. Format penulisan ID: {G/C}{bilangan bulat}\ncontoh: G3, C5, G17")
             return []
             break
-        if find_id(id, ref_arr):  # mencari apakah id ada
+        if find_id(id, ref_arr):#mencari apakah id ada
             print("\nGagal menambahkan item karena ID sudah ada")
             return []
             break
-        temp_list.append(id)  # menambahkan atribut id ke dalam array baru
-        tag_list = csv_reader(ref_file)[0]  # [id, nama, desc.....]
+        temp_list.append(id)#menambahkan atribut id ke dalam array baru
+        tag_list = csv_reader(ref_file)[0] #[id, nama, desc.....]
         tag_list.pop(0)
         for i in tag_list:  # [nama, deskripsi, jumlah......]
             if i == 'tahun_ditemukan':
@@ -376,8 +376,7 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
         else:
             x += 1
     while j < len(borrow_list):
-        if borrow_list[len(borrow_list) - j][1:3] == [user_Logged[0], name] and borrow_list[len(borrow_list) - j][
-            5] == 'False':  # berarti dah pernah minjem gadget yang sama
+        if borrow_list[len(borrow_list)-j][1:3] == [user_Logged[0], name] and borrow_list[len(borrow_list)-j][5] == 'False'  :  # berarti dah pernah minjem gadget yang sama
             print('\nAnda tidak dapat meminjam gadget yang sama!')
             isPernahPinjam = True
             break
@@ -404,18 +403,18 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                                 j = 0
                                 while j < len(borrow_list):
                                     j += 1
-                                borrow = ['B' + str(j), user_Logged[0], ref_list[i][0], date, n, 'False']
+                                borrow = ['B'+str(j), user_Logged[0], ref_list[i][0], date, n, 'False']
                                 global agbh_cus
                                 agbh_cus.append(borrow)
                                 ref_list[i][3] = str(sum)
                                 print()
                                 print("Item " + ref_list[i][1] + " (x" + n + ") berhasil dipinjam!")
                                 return ref_list
-
+                    
                     else:
-                        i += 1
-
-                return ref_list
+                        i+=1
+                    
+                return ref_list  
             else:
                 return ref_list
         else:
@@ -481,9 +480,9 @@ def kembalikan(arr1, arr2, arr3):
 
 
 def find(id, op):
-    if op == 'g':  # minta nama gadget
+    if op == 'g':#minta nama gadget
         i = 1
-        while i < len(ag_def):
+        while i<len(ag_def):
             if id == ag_def[i][0]:
                 return ag_def[i][1]
                 break
@@ -491,7 +490,7 @@ def find(id, op):
                 i += 1
     elif op == 'u':
         i = 1
-        while i < len(au_def):
+        while i<len(au_def):
             if id == au_def[i][0]:
                 return au_def[i][2]
                 break
@@ -499,28 +498,30 @@ def find(id, op):
                 i += 1
     if op == 'c':
         i = 1
-        while i < len(ac_def):
+        while i<len(ac_def):
             if id == ac_def[i][0]:
                 return ac_def[i][1]
                 break
             else:
                 i += 1
     elif op == 'bh_name':
-        i = 1
+        i =1
         while i < len(agbh_def):
             if id == agbh_def[i][0]:
-                return agbh_def[i][1]
+                return  agbh_def[i][1]
                 break
             else:
-                i += 1
+                i+=1
     elif op == 'bh_gadget':
-        i = 1
+        i =1
         while i < len(agbh_def):
             if id == agbh_def[i][0]:
-                return agbh_def[i][2]
+                return  agbh_def[i][2]
                 break
             else:
-                i += 1
+                i+=1
+
+
 
 
 def riwayat(arr, mode):
@@ -624,8 +625,6 @@ def riwayat(arr, mode):
                         print("Masukan Salah! Silahkan Ulangi")
                 if flag1 == False and flag2 == False:
                     break
-
-
 def minta(arr1, arr2):
     # arr_m : ac
     # arr_ch : ach
@@ -642,7 +641,7 @@ def minta(arr1, arr2):
             break
         else:
             print("ID item tidak tersedia. Silakan Ulangi!")
-    if int(arr_m[r_idx][3]) == 0:
+    if int(arr_m[r_idx][3]) == 0 :
         print("Item sudah habis!")
         return arr_m, arr_ch
     else:
@@ -650,7 +649,7 @@ def minta(arr1, arr2):
             jml = int(input("Jumlah: "))
             if jml <= int(arr_m[r_idx][3]) and jml > 0:
                 break
-            elif jml > int(arr_m[r_idx][3]) and jml > 0:
+            elif jml > int(arr_m[r_idx][3]) and jml>0:
                 print(f"Permintaan tidak dapat dipenuhi")
                 print(f"Jumlah item tersisa : {arr_m[r_idx][3]}")
             else:
@@ -697,7 +696,6 @@ def help(x):
         print(" riwayatambil - melihat riwayat pengambilan consumable")
         print(" save - melakukan penyimpanan ke dalam file")
         print(" help - memberikan panduan penggunaan sistem")
-
 
 def exit(folder, owd):
     if au_def == au_cus and ag_def == ag_cus and ac_def == ac_cus and ach_def == ach_cus and agbh_def == agbh_cus and agrh_def == agrh_cus:
@@ -771,7 +769,7 @@ def register(arr):
     id = f"U{len(arr_u)}"
     arr_res = [id, username, nama, alamat, password, "user"]
     arr_u.append(arr_res)
-    print("User", username, "berhasil diregistrasi ke dalam Kantong Ajaib!")
+    print("User", username,"berhasil diregistrasi ke dalam Kantong Ajaib!")
     return arr_u
 
 
@@ -820,7 +818,7 @@ def caritahun():
     # Proses array sementara yang menyimpan kategori yang diinginkan
     if arr == []:
         print("Tidak ada gadget ditemukan")
-    else:  # Array berisi data sesuai kategori
+    else: #Array berisi data sesuai kategori
         for i in range(len(arr)):
             print("Hasil pencarian:")
             print("")
@@ -938,7 +936,7 @@ while True:
         if isLoggedIn and isAdmin:
             new_list = ubahjumlah()
             try:
-                if len(new_list[0]) == 6:  # berarti gadget
+                if len(new_list[0]) == 6: #berarti gadget
                     ag_cus = new_list
                 else:
                     ac_cus = new_list
@@ -973,7 +971,7 @@ while True:
             print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
             print("Anda belum login.")
-
+   
     elif a == "minta":  # akses : user
         if isLoggedIn and not isAdmin:
             ac_cus, ach_cus = minta(ac_cus, ach_cus)
