@@ -648,19 +648,25 @@ def minta(arr1, arr2):
             break
         else:
             print("ID item tidak tersedia. Silakan Ulangi!")
+            return arr_m, arr_ch
     if int(arr_m[r_idx][3]) == 0 :
         print("Item sudah habis!")
         return arr_m, arr_ch
     else:
-        while True:
+        try :
             jml = int(input("Jumlah: "))
-            if jml <= int(arr_m[r_idx][3]) and jml > 0:
-                break
-            elif jml > int(arr_m[r_idx][3]) and jml>0:
+        except ValueError:
+            print("Masukan tidak valid!")
+            return arr_m, arr_ch
+        else:
+            if jml > int(arr_m[r_idx][3]) and jml>0:
                 print(f"Permintaan tidak dapat dipenuhi")
                 print(f"Jumlah item tersisa : {arr_m[r_idx][3]}")
-            else:
+                return arr_m, arr_ch
+            elif jml<=0:
                 print("Masukan tidak valid!")
+                return arr_m, arr_ch
+
         while True:
             tgl = input("Tanggal permintaan: ")
             if check(tgl, 'tanggal'):
@@ -1009,9 +1015,7 @@ while True:
             print("Anda belum login.")
     elif a == "kembalikan":  # akses : user
         if isLoggedIn and not isAdmin:
-            print(agrh_cus)
             agrh_cus = kembalikan(agbh_cus, agrh_cus, ag_cus)
-            print(agrh_cus)
         elif isLoggedIn and isAdmin:
             print("Anda admin, akses ini hanya untuk user.")
         else:  # not(isLoggedIn)
