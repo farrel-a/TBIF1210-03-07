@@ -189,7 +189,7 @@ def id_check(n):  # memvalidasi id yang dimasukkan
             return False
 
 
-def find_id(n, ref_list): #mencari apakah ada  gadget/cosumables dengan id yang diinput pengguna 
+def find_id(n, ref_list): #mencari apakah ada  gadget/cosumables dengan id yang diinput pengguna
     n = n.upper()
     i = 1
     while i < len(ref_list):
@@ -417,11 +417,11 @@ def op_pinjam(id, ref_list, borrow_list, user_Logged):
                                 print()
                                 print("Item " + ref_list[i][1] + " (x" + n + ") berhasil dipinjam!")
                                 return ref_list
-                    
+
                     else:
                         i+=1
-                    
-                return ref_list  
+
+                return ref_list
             else:
                 return ref_list
         else:
@@ -443,6 +443,7 @@ def kembalikan(arr1, arr2, arr3):
     no = 1
     if arr_IDGL == []:
         print("Tidak ada yang bisa dikembalikan")
+        return arr2
     else:
         print()
         for IDG in arr_IDGL:
@@ -452,11 +453,15 @@ def kembalikan(arr1, arr2, arr3):
                     no += 1
         print()
         while True:
-            np = int(input("Masukan nomor peminjaman: "))
-            if np >= 1 and np <= (len(arr_IDGL)):
-                break
+            try:
+                np = int(input("Masukan nomor peminjaman: "))
+            except ValueError:
+                return arr2
             else:
-                print("Masukan salah!")
+                if np >= 1 and np <= (len(arr_IDGL)):
+                    break
+                else:
+                    print("Masukan salah!")
         while True:
             tgl = input("Tanggal pengembalian: ")
             if check(tgl, 'tanggal'):
@@ -473,15 +478,10 @@ def kembalikan(arr1, arr2, arr3):
                 arr1[i][5] = "True"
                 arr3[np][3] = str(int(arr3[np][3]) + int(arr1[i][4]))
         id = N2
-        idp = ""
-        for i in range(len(id_peminjaman)):
-            if i != (len(id_peminjaman) - 1):
-                idp += id_peminjaman[i]
-                idp += ","
-            else:
-                idp += id_peminjaman[i]
-        arr_return = [f"R{id}", idp, tgl]
-        arr2.append(arr_return)
+        for i in id_peminjaman:
+            arr_return = [f"R{id}", i, tgl]
+            arr2.append(arr_return)
+            id = len(arr2)
         print(f"\nItem {arr3[np][1]} (x{jml}) telah dikembalikan.")
         return arr2
 
@@ -978,7 +978,7 @@ while True:
             print("Anda user, akses ini hanya untuk admin.")
         else:  # not(isLoggedIn)
             print("Anda belum login.")
-   
+
     elif a == "minta":  # akses : user
         if isLoggedIn and not isAdmin:
             ac_cus, ach_cus = minta(ac_cus, ach_cus)
@@ -1009,7 +1009,9 @@ while True:
             print("Anda belum login.")
     elif a == "kembalikan":  # akses : user
         if isLoggedIn and not isAdmin:
+            print(agrh_cus)
             agrh_cus = kembalikan(agbh_cus, agrh_cus, ag_cus)
+            print(agrh_cus)
         elif isLoggedIn and isAdmin:
             print("Anda admin, akses ini hanya untuk user.")
         else:  # not(isLoggedIn)
