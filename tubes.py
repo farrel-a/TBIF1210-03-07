@@ -673,6 +673,7 @@ def minta(arr1, arr2):
                 break
             else:
                 print("Masukan salah!")
+                return arr_m, arr_ch
         print(f"Item {arr_m[r_idx][1]} (x{jml}) telah berhasil diambil!")
         arr_m[r_idx][3] = str(int(arr_m[r_idx][3]) - jml)
         id = f"CH{len(arr_ch)}"
