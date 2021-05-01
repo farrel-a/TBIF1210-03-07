@@ -351,8 +351,8 @@ def op_ubahjumlah(id, ref_list):
                 return ref_list
         else:
             i += 1
-        print('Tidak ada item dengan ID tersebut.')
-        return ref_list
+    print('Tidak ada item dengan ID tersebut.')
+    return ref_list
 
 
 def pinjam():
@@ -795,11 +795,11 @@ def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
         if rarity == N[i][4]:
             print("Hasil pencarian:")
             print("")
-            print(f"Nama             : {N[i][0]}")
-            print(f"Deskripsi        : {N[i][1]}")
-            print(f"Jumlah           : {N[i][2]}")
-            print(f"Rarity           : {N[i][3]}")
-            print(f"Tahun Ditemukan  : {N[i][4]}")
+            print(f"Nama             : {N[i][1]}")
+            print(f"Deskripsi        : {N[i][2]}")
+            print(f"Jumlah           : {N[i][3]}")
+            print(f"Rarity           : {N[i][4]}")
+            print(f"Tahun Ditemukan  : {N[i][5]}")
             print("")
 
 
