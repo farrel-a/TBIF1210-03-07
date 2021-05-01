@@ -833,15 +833,34 @@ def caritahun():
     if arr == []:
         print("Tidak ada gadget ditemukan")
     else: #Array berisi data sesuai kategori
-        for i in range(len(arr)):
+        year = [] #sorting
+        for j in range(len(arr)):
+            x = int(arr[j][5])
+            year.append(x)
+        year.sort()
+        new_arr = []
+        for l in year:
+            print(l)
+            m = 0
+            while m < len(arr):
+                print(arr[m])
+                if  l == int(arr[m][5]):
+                    print('f', arr[m])
+                    new_arr.append(arr[m])
+                    break
+                else:
+                    m += 1
+
+        for i in range(len(new_arr)):
             print("Hasil pencarian:")
             print("")
-            print(f"Nama             : {arr[i][1]}")
-            print(f"Deskripsi        : {arr[i][2]}")
-            print(f"Jumlah           : {arr[i][3]}")
-            print(f"Rarity           : {arr[i][4]}")
-            print(f"Tahun Ditemukan  : {arr[i][5]}")
+            print(f"Nama             : {new_arr[i][1]}")
+            print(f"Deskripsi        : {new_arr[i][2]}")
+            print(f"Jumlah           : {new_arr[i][3]}")
+            print(f"Rarity           : {new_arr[i][4]}")
+            print(f"Tahun Ditemukan  : {new_arr[i][5]}")
             print("")
+
 
 
 def write_to_csv(arr, filename):  # fungsi khusus array to csv
