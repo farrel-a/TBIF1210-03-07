@@ -351,8 +351,8 @@ def op_ubahjumlah(id, ref_list):
                 return ref_list
         else:
             i += 1
-        print('Tidak ada item dengan ID tersebut.')
-        return ref_list
+    print('Tidak ada item dengan ID tersebut.')
+    return ref_list
 
 
 def pinjam():
@@ -795,11 +795,11 @@ def rarity():  # Berdasarkan spesifikasi, input pasti valid (C,B,A,S)
         if rarity == N[i][4]:
             print("Hasil pencarian:")
             print("")
-            print(f"Nama             : {N[i][0]}")
-            print(f"Deskripsi        : {N[i][1]}")
-            print(f"Jumlah           : {N[i][2]}")
-            print(f"Rarity           : {N[i][3]}")
-            print(f"Tahun Ditemukan  : {N[i][4]}")
+            print(f"Nama             : {N[i][1]}")
+            print(f"Deskripsi        : {N[i][2]}")
+            print(f"Jumlah           : {N[i][3]}")
+            print(f"Rarity           : {N[i][4]}")
+            print(f"Tahun Ditemukan  : {N[i][5]}")
             print("")
 
 
@@ -833,15 +833,31 @@ def caritahun():
     if arr == []:
         print("Tidak ada gadget ditemukan")
     else: #Array berisi data sesuai kategori
-        for i in range(len(arr)):
+        year = [] #sorting
+        for j in range(len(arr)):
+            x = int(arr[j][5])
+            year.append(x)
+        year.sort()
+        new_arr = []
+        for l in year:
+            m = 0
+            while m < len(arr):
+                if  l == int(arr[m][5]):
+                    new_arr.append(arr[m])
+                    break
+                else:
+                    m += 1
+
+        for i in range(len(new_arr)):
             print("Hasil pencarian:")
             print("")
-            print(f"Nama             : {arr[i][1]}")
-            print(f"Deskripsi        : {arr[i][2]}")
-            print(f"Jumlah           : {arr[i][3]}")
-            print(f"Rarity           : {arr[i][4]}")
-            print(f"Tahun Ditemukan  : {arr[i][5]}")
+            print(f"Nama             : {new_arr[i][1]}")
+            print(f"Deskripsi        : {new_arr[i][2]}")
+            print(f"Jumlah           : {new_arr[i][3]}")
+            print(f"Rarity           : {new_arr[i][4]}")
+            print(f"Tahun Ditemukan  : {new_arr[i][5]}")
             print("")
+
 
 
 def write_to_csv(arr, filename):  # fungsi khusus array to csv
