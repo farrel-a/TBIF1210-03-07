@@ -840,12 +840,9 @@ def caritahun():
         year.sort()
         new_arr = []
         for l in year:
-            print(l)
             m = 0
             while m < len(arr):
-                print(arr[m])
                 if  l == int(arr[m][5]):
-                    print('f', arr[m])
                     new_arr.append(arr[m])
                     break
                 else:
